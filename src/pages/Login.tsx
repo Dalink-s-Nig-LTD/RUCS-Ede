@@ -1,32 +1,68 @@
 import { useNavigate } from 'react-router-dom';
-import { LogIn } from 'lucide-react';
+import { LogIn, ShieldCheck, Users, TrendingUp } from 'lucide-react';
 import rucsLogo from '@/assets/rucs-logo.png';
 
 export const Login = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#0B0D12] flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 font-sans text-slate-900 dark:text-slate-100 transition-colors duration-300">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="mx-auto w-24 h-24 flex items-center justify-center drop-shadow-lg">
-          <img src={rucsLogo} alt="RUCS Logo" className="w-full h-full object-contain" />
+    <div className="min-h-screen flex font-body">
+      {/* Left panel — branding */}
+      <div className="hidden lg:flex lg:w-[480px] xl:w-[520px] bg-ocean-deep text-white flex-col justify-between p-10 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-ocean-mid/30 to-ocean-accent/10" />
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <img src={rucsLogo} alt="RUCS Logo" className="w-12 h-12 object-contain drop-shadow-lg" />
+            <span className="font-heading font-bold text-xl tracking-tight">RUCS</span>
+          </div>
+          <p className="text-sm text-white/50 font-medium">Redeemers University Cooperative Society</p>
         </div>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-slate-900 dark:text-white">
-          Sign in to RUCS
-        </h2>
-        <p className="mt-2 text-center text-sm text-slate-600 dark:text-slate-400">
-          Redeemers University Cooperative Society
-        </p>
+
+        <div className="relative z-10 space-y-8">
+          <h1 className="font-heading text-3xl xl:text-4xl font-bold leading-tight">
+            Your cooperative,<br />digitally empowered.
+          </h1>
+          <p className="text-white/60 text-base leading-relaxed max-w-sm">
+            Save, borrow, and manage your cooperative membership — all in one place.
+          </p>
+          <div className="grid grid-cols-1 gap-4 pt-4">
+            {[
+              { icon: Users, label: '1,200+ active members' },
+              { icon: TrendingUp, label: '₦450M+ total savings' },
+              { icon: ShieldCheck, label: 'Bank-grade security' },
+            ].map(({ icon: Icon, label }) => (
+              <div key={label} className="flex items-center gap-3 text-white/70">
+                <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center">
+                  <Icon className="w-4 h-4" />
+                </div>
+                <span className="text-sm font-medium">{label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <p className="relative z-10 text-xs text-white/30">© 2026 Redeemers University Cooperative Society</p>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white dark:bg-[#12141A] py-8 px-4 sm:rounded-3xl sm:px-10 border border-slate-100 dark:border-[#222631] shadow-xl shadow-slate-200/50 dark:shadow-black/50">
-          <div className="space-y-6">
+      {/* Right panel — login */}
+      <div className="flex-1 flex flex-col justify-center items-center px-6 sm:px-12 bg-background">
+        <div className="w-full max-w-md space-y-8">
+          <div className="lg:hidden flex items-center gap-3 mb-4">
+            <img src={rucsLogo} alt="RUCS Logo" className="w-10 h-10 object-contain" />
+            <span className="font-heading font-bold text-lg text-foreground">RUCS Platform</span>
+          </div>
+
+          <div>
+            <h2 className="font-heading text-2xl font-bold text-foreground">Welcome back</h2>
+            <p className="text-muted-foreground mt-1 text-sm">Sign in with your institutional Google account.</p>
+          </div>
+
+          <div className="space-y-4">
             <button
               onClick={() => navigate('/member')}
-              className="w-full flex justify-center items-center py-3.5 px-4 border border-slate-300 dark:border-[#222631] rounded-xl shadow-sm bg-white dark:bg-[#1A1D24] text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-[#222631] focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-[#12141A] focus:ring-emerald-500 transition-all duration-200"
+              className="w-full flex justify-center items-center py-3.5 px-4 bg-card border border-border rounded-lg shadow-sm text-sm font-semibold text-foreground hover:bg-secondary transition-all duration-200"
             >
-              <svg className="h-5 w-5 mr-3" aria-hidden="true" viewBox="0 0 24 24">
+              <svg className="h-5 w-5 mr-3" viewBox="0 0 24 24">
                 <path d="M12.0003 4.75C13.7703 4.75 15.3553 5.36002 16.6053 6.54998L20.0303 3.125C17.9502 1.19 15.2353 0 12.0003 0C7.31028 0 3.25527 2.69 1.28027 6.60998L5.27028 9.70498C6.21525 6.86002 8.87028 4.75 12.0003 4.75Z" fill="#EA4335" />
                 <path d="M23.49 12.275C23.49 11.49 23.415 10.73 23.3 10H12V14.51H18.47C18.18 15.99 17.34 17.25 16.08 18.1L19.945 21.1C22.2 19.01 23.49 15.92 23.49 12.275Z" fill="#4285F4" />
                 <path d="M5.26498 14.2949C5.02498 13.5699 4.88501 12.7999 4.88501 11.9999C4.88501 11.1999 5.01998 10.4299 5.26498 9.7049L1.275 6.60986C0.46 8.22986 0 10.0599 0 11.9999C0 13.9399 0.46 15.7699 1.28 17.3899L5.26498 14.2949Z" fill="#FBBC05" />
@@ -34,30 +70,28 @@ export const Login = () => {
               </svg>
               Sign in as Member
             </button>
+
             <button
               onClick={() => navigate('/admin')}
-              className="w-full flex justify-center items-center py-3.5 px-4 border border-transparent rounded-xl shadow-md bg-slate-900 dark:bg-emerald-600 text-sm font-semibold text-white hover:bg-slate-800 dark:hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-[#12141A] focus:ring-slate-900 dark:focus:ring-emerald-500 transition-all duration-200"
+              className="w-full flex justify-center items-center py-3.5 px-4 bg-primary text-primary-foreground rounded-lg shadow-sm text-sm font-semibold hover:opacity-90 transition-all duration-200"
             >
               <LogIn className="w-5 h-5 mr-2" />
               Sign in as Admin
             </button>
           </div>
 
-          <div className="mt-8">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-200 dark:border-[#222631]" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-3 bg-white dark:bg-[#12141A] text-slate-500 dark:text-slate-400">
-                  Secured by Google OAuth 2.0
-                </span>
-              </div>
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-border" />
             </div>
-            <p className="mt-6 text-center text-xs text-slate-500 dark:text-slate-400">
-              Only @run.edu.ng email addresses are permitted.
-            </p>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-3 bg-background text-muted-foreground text-xs">Secured by Google OAuth 2.0</span>
+            </div>
           </div>
+
+          <p className="text-center text-xs text-muted-foreground">
+            Only @run.edu.ng email addresses are permitted.
+          </p>
         </div>
       </div>
     </div>

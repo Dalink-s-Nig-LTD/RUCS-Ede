@@ -6,90 +6,90 @@ import { CheckCircle, Clock, AlertCircle } from 'lucide-react';
 export const MyLoans = () => {
   const [filter, setFilter] = useState('all');
   const navigate = useNavigate();
-
   const filteredLoans = filter === 'all' ? mockLoans : mockLoans.filter(l => l.status === filter);
 
   const getStatusBadge = (status: string) => {
-    switch(status) {
-      case 'active':
-        return <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-100"><Clock className="w-3.5 h-3.5 mr-1" /> Active</span>;
-      case 'cleared':
-        return <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-100"><CheckCircle className="w-3.5 h-3.5 mr-1" /> Cleared</span>;
-      case 'pending':
-        return <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-orange-50 text-orange-700 border border-orange-100"><AlertCircle className="w-3.5 h-3.5 mr-1" /> Pending</span>;
-      default:
-        return <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-100 text-slate-700 border border-slate-200">{status}</span>;
-    }
+    const styles: Record<string, string> = {
+      active: 'bg-primary/10 text-primary border-primary/20',
+      cleared: 'bg-success/10 text-success border-success/20',
+      pending: 'bg-warning/10 text-warning border-warning/20',
+    };
+    const icons: Record<string, React.ReactNode> = {
+      active: <Clock className="w-3 h-3 mr-1" />,
+      cleared: <CheckCircle className="w-3 h-3 mr-1" />,
+      pending: <AlertCircle className="w-3 h-3 mr-1" />,
+    };
+    return (
+      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${styles[status] || 'bg-secondary text-muted-foreground border-border'}`}>
+        {icons[status]}{status}
+      </span>
+    );
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">My Loans</h1>
-          <p className="text-slate-500 mt-1">Track your active loans and repayment history.</p>
+          <h1 className="text-2xl font-heading font-bold text-foreground">My Loans</h1>
+          <p className="text-muted-foreground text-sm mt-1">Track your active loans and repayment history.</p>
         </div>
-        <div className="flex items-center gap-3 w-full md:w-auto overflow-x-auto">
-          <div className="bg-white rounded-xl border border-slate-200 p-1 flex w-full md:w-auto min-w-max">
-            {['all', 'active', 'pending', 'cleared'].map(f => (
-              <button key={f} onClick={() => setFilter(f)} className={`px-4 py-1.5 rounded-lg text-sm font-medium capitalize transition-colors ${filter === f ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}>
-                {f}
-              </button>
-            ))}
-          </div>
+        <div className="bg-card rounded-lg border border-border p-0.5 flex w-full md:w-auto min-w-max">
+          {['all', 'active', 'pending', 'cleared'].map(f => (
+            <button key={f} onClick={() => setFilter(f)} className={`px-3 py-1.5 rounded-md text-xs font-medium capitalize transition-colors ${filter === f ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}>
+              {f}
+            </button>
+          ))}
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+      <div className="bg-card rounded-xl border border-border overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200">
-                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Product</th>
-                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Request Date</th>
-                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Loan Amount</th>
-                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Progress</th>
-                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-4 text-right text-xs font-bold text-slate-500 uppercase tracking-wider">Action</th>
+              <tr className="bg-secondary/50 border-b border-border">
+                <th className="px-5 py-3 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Product</th>
+                <th className="px-5 py-3 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Date</th>
+                <th className="px-5 py-3 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Amount</th>
+                <th className="px-5 py-3 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Progress</th>
+                <th className="px-5 py-3 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Status</th>
+                <th className="px-5 py-3 text-right text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-border">
               {filteredLoans.map(loan => {
                 const progress = loan.status === 'cleared' ? 100 : loan.status === 'pending' ? 0 : (loan.amount_paid / loan.total_repayment_amount) * 100;
                 return (
-                  <tr key={loan.id} className="hover:bg-slate-50/50 transition-colors group">
-                    <td className="px-6 py-5">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-slate-100 overflow-hidden flex-shrink-0">
+                  <tr key={loan.id} className="hover:bg-secondary/30 transition-colors">
+                    <td className="px-5 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-lg bg-secondary overflow-hidden shrink-0">
                           <img src={loan.product.image_url} alt={loan.product.name} className="w-full h-full object-cover" />
                         </div>
                         <div>
-                          <p className="text-sm font-bold text-slate-900 line-clamp-1">{loan.product.name}</p>
-                          <p className="text-xs text-slate-500 mt-0.5">Qty: {loan.quantity}</p>
+                          <p className="text-sm font-semibold text-foreground line-clamp-1">{loan.product.name}</p>
+                          <p className="text-[10px] text-muted-foreground">Qty: {loan.quantity}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-5">
-                      <p className="text-sm text-slate-700 font-medium">{new Date(loan.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+                    <td className="px-5 py-4 text-xs text-muted-foreground font-medium">{new Date(loan.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
+                    <td className="px-5 py-4">
+                      <p className="text-sm font-semibold text-foreground">{formatCurrency(loan.total_loan_amount)}</p>
+                      <p className="text-[10px] text-muted-foreground">{formatCurrency(loan.monthly_installment)}/mo</p>
                     </td>
-                    <td className="px-6 py-5">
-                      <p className="text-sm font-bold text-slate-900">{formatCurrency(loan.total_loan_amount)}</p>
-                      <p className="text-xs text-slate-500 mt-0.5">{formatCurrency(loan.monthly_installment)}/mo</p>
-                    </td>
-                    <td className="px-6 py-5">
-                      <div className="w-full max-w-[120px]">
-                        <div className="flex justify-between text-xs mb-1.5">
-                          <span className="font-semibold text-slate-700">{formatCurrency(loan.amount_paid)}</span>
-                          <span className="text-slate-500">{Math.round(progress)}%</span>
+                    <td className="px-5 py-4">
+                      <div className="w-full max-w-[100px]">
+                        <div className="flex justify-between text-[10px] mb-1">
+                          <span className="font-medium text-muted-foreground">{formatCurrency(loan.amount_paid)}</span>
+                          <span className="text-muted-foreground">{Math.round(progress)}%</span>
                         </div>
-                        <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-                          <div className={`h-full rounded-full ${progress === 100 ? 'bg-emerald-500' : 'bg-blue-500'}`} style={{ width: `${progress}%` }}></div>
+                        <div className="w-full h-1.5 bg-secondary rounded-full overflow-hidden">
+                          <div className={`h-full rounded-full ${progress === 100 ? 'bg-success' : 'bg-primary'}`} style={{ width: `${progress}%` }} />
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-5">{getStatusBadge(loan.status)}</td>
-                    <td className="px-6 py-5 text-right">
-                      <button onClick={() => navigate(`/member/loans/${loan.id}`)} className="text-sm font-semibold text-emerald-600 hover:text-emerald-700 hover:underline">View Details</button>
+                    <td className="px-5 py-4">{getStatusBadge(loan.status)}</td>
+                    <td className="px-5 py-4 text-right">
+                      <button onClick={() => navigate(`/member/loans/${loan.id}`)} className="text-xs font-semibold text-primary hover:underline">Details</button>
                     </td>
                   </tr>
                 );
@@ -97,9 +97,7 @@ export const MyLoans = () => {
             </tbody>
           </table>
         </div>
-        {filteredLoans.length === 0 && (
-          <div className="text-center py-16"><p className="text-slate-500 font-medium">No loans found matching the selected filter.</p></div>
-        )}
+        {filteredLoans.length === 0 && <div className="text-center py-12 text-sm text-muted-foreground">No loans found.</div>}
       </div>
     </div>
   );
