@@ -9,7 +9,6 @@ export const Shop = () => {
   const navigate = useNavigate();
 
   const categories = ['All', ...new Set(products.map(p => p.category))];
-
   const filteredProducts = products.filter(p => {
     const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCat = category === 'All' || p.category === category;
@@ -17,72 +16,72 @@ export const Shop = () => {
   });
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Cooperative Shop</h1>
-          <p className="text-slate-500 mt-1">Browse available products and request on loan.</p>
+          <h1 className="text-2xl font-heading font-bold text-foreground">Cooperative Shop</h1>
+          <p className="text-muted-foreground text-sm mt-1">Browse available products and request on loan.</p>
         </div>
-        <div className="flex items-center gap-3 w-full md:w-auto">
-          <div className="relative flex-1 md:w-72">
-            <Search className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-            <input type="text" placeholder="Search products..." className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 shadow-sm transition-all" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+        <div className="flex items-center gap-2 w-full md:w-auto">
+          <div className="relative flex-1 md:w-64">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+            <input type="text" placeholder="Search products..." className="w-full pl-9 pr-4 py-2 bg-card border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
           </div>
-          <button className="flex items-center justify-center w-11 h-11 bg-white border border-slate-200 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors shadow-sm shrink-0">
-            <Filter className="w-5 h-5" />
+          <button className="w-9 h-9 bg-card border border-border rounded-lg text-muted-foreground hover:text-foreground flex items-center justify-center transition-colors shrink-0">
+            <Filter className="w-4 h-4" />
           </button>
         </div>
       </div>
 
-      <div className="flex overflow-x-auto pb-2 -mx-2 px-2 gap-2">
+      <div className="flex overflow-x-auto pb-1 -mx-1 px-1 gap-1.5">
         {categories.map(cat => (
-          <button key={cat} onClick={() => setCategory(cat)} className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${category === cat ? 'bg-slate-900 text-white shadow-sm' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}`}>
+          <button key={cat} onClick={() => setCategory(cat)} className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${category === cat ? 'bg-primary text-primary-foreground' : 'bg-card border border-border text-muted-foreground hover:text-foreground'}`}>
             {cat}
           </button>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {filteredProducts.map(product => (
-          <div key={product.id} onClick={() => navigate(`/member/shop/${product.id}`)} className="group bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden cursor-pointer transition-all hover:shadow-md hover:-translate-y-1">
-            <div className="aspect-[4/3] bg-slate-100 relative overflow-hidden">
+          <div key={product.id} onClick={() => navigate(`/member/shop/${product.id}`)} className="group bg-card rounded-xl border border-border overflow-hidden cursor-pointer transition-all hover:shadow-md hover:-translate-y-0.5">
+            <div className="aspect-[4/3] bg-secondary relative overflow-hidden">
               <img src={product.image_url} alt={product.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
               {product.stock_quantity === 0 && (
-                <div className="absolute inset-0 bg-slate-900/60 flex items-center justify-center backdrop-blur-[2px]">
-                  <span className="px-4 py-2 bg-white/90 text-slate-900 font-bold rounded-full text-sm uppercase tracking-wider">Out of Stock</span>
+                <div className="absolute inset-0 bg-foreground/50 flex items-center justify-center backdrop-blur-[2px]">
+                  <span className="px-3 py-1.5 bg-card/90 text-foreground font-bold rounded-full text-xs uppercase tracking-wider">Out of Stock</span>
                 </div>
               )}
             </div>
-            <div className="p-5">
-              <div className="flex justify-between items-start mb-2">
-                <span className="text-xs font-semibold text-emerald-600 uppercase tracking-wider">{product.category}</span>
-                <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${product.stock_quantity > 0 ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+            <div className="p-4">
+              <div className="flex justify-between items-start mb-1.5">
+                <span className="text-[10px] font-semibold text-primary uppercase tracking-wider">{product.category}</span>
+                <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full ${product.stock_quantity > 0 ? 'bg-success/10 text-success' : 'bg-destructive/10 text-destructive'}`}>
                   {product.stock_quantity > 0 ? `${product.stock_quantity} in stock` : 'Unavailable'}
                 </span>
               </div>
-              <h3 className="font-bold text-slate-900 mb-1 line-clamp-1">{product.name}</h3>
-              <p className="text-sm text-slate-500 mb-4 line-clamp-2">{product.description}</p>
-              <div className="flex items-end justify-between mt-auto">
+              <h3 className="font-heading font-bold text-foreground text-sm line-clamp-1">{product.name}</h3>
+              <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{product.description}</p>
+              <div className="flex items-end justify-between mt-3">
                 <div>
-                  <p className="text-lg font-extrabold text-slate-900">{formatCurrency(product.price)}</p>
-                  <p className="text-xs text-slate-500">From {formatCurrency(product.price / 12)}/mo</p>
+                  <p className="text-base font-heading font-bold text-foreground">{formatCurrency(product.price)}</p>
+                  <p className="text-[10px] text-muted-foreground">From {formatCurrency(product.price / 12)}/mo</p>
                 </div>
-                <button disabled={product.stock_quantity === 0} className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-900 transition-colors group-hover:bg-emerald-600 group-hover:text-white disabled:opacity-50 disabled:group-hover:bg-slate-100 disabled:group-hover:text-slate-400">
-                  <ShoppingCart className="w-5 h-5" />
+                <button disabled={product.stock_quantity === 0} className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center text-foreground transition-colors group-hover:bg-primary group-hover:text-primary-foreground disabled:opacity-40 disabled:group-hover:bg-secondary disabled:group-hover:text-muted-foreground">
+                  <ShoppingCart className="w-4 h-4" />
                 </button>
               </div>
             </div>
           </div>
         ))}
       </div>
-      
+
       {filteredProducts.length === 0 && (
-        <div className="text-center py-20">
-          <div className="mx-auto w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 mb-4">
-            <Search className="w-10 h-10" />
+        <div className="text-center py-16">
+          <div className="mx-auto w-16 h-16 bg-secondary rounded-full flex items-center justify-center text-muted-foreground mb-3">
+            <Search className="w-8 h-8" />
           </div>
-          <h3 className="text-lg font-semibold text-slate-900 mb-2">No products found</h3>
-          <p className="text-slate-500">Try adjusting your search or filters.</p>
+          <h3 className="font-heading font-semibold text-foreground mb-1">No products found</h3>
+          <p className="text-sm text-muted-foreground">Try adjusting your search or filters.</p>
         </div>
       )}
     </div>

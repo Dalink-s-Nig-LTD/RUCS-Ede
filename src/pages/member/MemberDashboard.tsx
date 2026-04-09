@@ -11,6 +11,12 @@ const savingsData = [
   { name: 'May', balance: 1450000 },
 ];
 
+const statCards = [
+  { label: 'Total Savings', value: mockUser.savings_balance, icon: PiggyBank, color: 'text-success bg-success/10', sub: <span className="text-success font-medium flex items-center"><TrendingUp className="w-3.5 h-3.5 mr-1" />+5% from last year</span> },
+  { label: 'Monthly Contribution', value: mockUser.monthly_savings, icon: Wallet, color: 'text-primary bg-primary/10', sub: <span className="text-muted-foreground">Auto-deducted monthly</span> },
+  { label: 'Total Dividends', value: 85000, icon: Receipt, color: 'text-purple-600 bg-purple-500/10', sub: <span className="text-muted-foreground">Earned in 2025</span> },
+];
+
 export const MemberDashboard = () => {
   const navigate = useNavigate();
   const activeLoans = mockLoans.filter(l => l.status === 'active' || l.status === 'pending');
@@ -18,132 +24,90 @@ export const MemberDashboard = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 sm:mb-8 w-full">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Good morning, {mockUser.name.split(' ')[0]}!</h1>
-          <p className="text-slate-500 mt-1">Here is a summary of your cooperative savings and standing.</p>
+          <h1 className="text-2xl font-heading font-bold text-foreground">Good morning, {mockUser.name.split(' ')[0]}!</h1>
+          <p className="text-muted-foreground text-sm mt-1">Here's a summary of your cooperative account.</p>
         </div>
-        <button 
-          onClick={() => navigate('/member/shop')}
-          className="w-full sm:w-auto px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-medium shadow-sm transition-colors text-center"
-        >
+        <button onClick={() => navigate('/member/shop')} className="px-5 py-2.5 bg-primary text-primary-foreground rounded-lg font-medium text-sm shadow-sm hover:opacity-90 transition-all">
           Request New Loan
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {statCards.map(({ label, value, icon: Icon, color, sub }) => (
+          <div key={label} className="bg-card p-5 rounded-xl border border-border">
+            <div className="flex justify-between items-start">
+              <div>
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{label}</p>
+                <h3 className="text-xl font-heading font-bold text-foreground mt-2">{formatCurrency(value)}</h3>
+              </div>
+              <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${color}`}>
+                <Icon className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="mt-3 text-xs">{sub}</div>
+          </div>
+        ))}
+        <div className="bg-card p-5 rounded-xl border border-border cursor-pointer hover:border-primary/40 transition-colors" onClick={() => navigate('/member/loans')}>
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-sm font-medium text-slate-500">Total Savings</p>
-              <h3 className="text-2xl font-bold text-slate-900 mt-2">{formatCurrency(mockUser.savings_balance)}</h3>
+              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Outstanding Loans</p>
+              <h3 className="text-xl font-heading font-bold text-foreground mt-2">{formatCurrency(totalOutstanding)}</h3>
             </div>
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
-              <PiggyBank className="w-5 h-5" />
-            </div>
-          </div>
-          <div className="mt-4 flex items-center text-sm">
-            <span className="text-emerald-600 font-medium flex items-center">
-              <TrendingUp className="w-4 h-4 mr-1" />+5% from last year
-            </span>
-          </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-          <div className="flex justify-between items-start">
-            <div>
-              <p className="text-sm font-medium text-slate-500">Monthly Contribution</p>
-              <h3 className="text-2xl font-bold text-slate-900 mt-2">{formatCurrency(mockUser.monthly_savings)}</h3>
-            </div>
-            <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
-              <Wallet className="w-5 h-5" />
+            <div className="w-9 h-9 rounded-lg flex items-center justify-center text-warning bg-warning/10">
+              <TrendingDown className="w-4 h-4" />
             </div>
           </div>
-          <div className="mt-4 flex items-center text-sm">
-            <span className="text-slate-500">Auto-deducted monthly</span>
-          </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-          <div className="flex justify-between items-start">
-            <div>
-              <p className="text-sm font-medium text-slate-500">Total Dividends</p>
-              <h3 className="text-2xl font-bold text-slate-900 mt-2">{formatCurrency(85000)}</h3>
-            </div>
-            <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600">
-              <Receipt className="w-5 h-5" />
-            </div>
-          </div>
-          <div className="mt-4 flex items-center text-sm">
-            <span className="text-slate-500">Earned in 2025</span>
-          </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 cursor-pointer hover:border-emerald-200 transition-colors" onClick={() => navigate('/member/loans')}>
-          <div className="flex justify-between items-start">
-            <div>
-              <p className="text-sm font-medium text-slate-500">Outstanding Loans</p>
-              <h3 className="text-2xl font-bold text-slate-900 mt-2">{formatCurrency(totalOutstanding)}</h3>
-            </div>
-            <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-orange-600">
-              <TrendingDown className="w-5 h-5" />
-            </div>
-          </div>
-          <div className="mt-4 flex items-center text-sm">
-            <span className="text-emerald-600 font-medium">View loan details →</span>
-          </div>
+          <div className="mt-3 text-xs text-primary font-medium">View loan details →</div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-          <h3 className="text-lg font-semibold text-slate-900 mb-6">Savings Growth History</h3>
-          <div className="h-[300px] w-full">
-            <ResponsiveContainer width="100%" height="100%" minHeight={300}>
-              <AreaChart data={savingsData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="lg:col-span-2 bg-card p-5 rounded-xl border border-border">
+          <h3 className="text-sm font-heading font-semibold text-foreground mb-4">Savings Growth</h3>
+          <div className="h-[280px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={savingsData} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
                 <defs>
-                  <linearGradient id="colorBalance" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                  <linearGradient id="colorBal" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="hsl(200, 55%, 39%)" stopOpacity={0.25} />
+                    <stop offset="95%" stopColor="hsl(200, 55%, 39%)" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12}} dy={10} />
-                <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12}} dx={-10} tickFormatter={(val) => `₦${val / 1000}k`} />
-                <CartesianGrid vertical={false} stroke="#f1f5f9" />
-                <Tooltip formatter={(value: number) => formatCurrency(value)} contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
-                <Area type="monotone" dataKey="balance" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#colorBalance)" />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'hsl(210,18%,45%)', fontSize: 12 }} dy={8} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: 'hsl(210,18%,45%)', fontSize: 12 }} dx={-5} tickFormatter={v => `₦${v / 1000}k`} />
+                <CartesianGrid vertical={false} stroke="hsl(210,24%,90%)" />
+                <Tooltip formatter={(v: number) => formatCurrency(v)} contentStyle={{ borderRadius: '8px', border: '1px solid hsl(210,24%,87%)', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', fontSize: 13 }} />
+                <Area type="monotone" dataKey="balance" stroke="hsl(200, 55%, 39%)" strokeWidth={2.5} fillOpacity={1} fill="url(#colorBal)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-semibold text-slate-900">Recent Transactions</h3>
-          </div>
-          <div className="space-y-5">
+        <div className="bg-card p-5 rounded-xl border border-border">
+          <h3 className="text-sm font-heading font-semibold text-foreground mb-4">Recent Transactions</h3>
+          <div className="space-y-4">
             {[
               { id: 1, title: 'Monthly Savings Deposit', date: 'May 1, 2026', amount: 50000, type: 'credit' },
-              { id: 2, title: 'Loan Repayment Deduction', date: 'May 1, 2026', amount: -161875, type: 'debit' },
+              { id: 2, title: 'Loan Repayment', date: 'May 1, 2026', amount: -161875, type: 'debit' },
               { id: 3, title: 'Monthly Savings Deposit', date: 'Apr 1, 2026', amount: 50000, type: 'credit' },
-              { id: 4, title: 'Loan Repayment Deduction', date: 'Apr 1, 2026', amount: -161875, type: 'debit' },
+              { id: 4, title: 'Loan Repayment', date: 'Apr 1, 2026', amount: -161875, type: 'debit' },
               { id: 5, title: 'Monthly Savings Deposit', date: 'Mar 1, 2026', amount: 50000, type: 'credit' },
-            ].map((tx) => (
-              <div key={tx.id} className="flex items-center justify-between pb-5 border-b border-slate-50 last:border-0 last:pb-0">
-                <div className="flex items-center gap-4">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${tx.type === 'credit' ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-100 text-slate-600'}`}>
-                    {tx.type === 'credit' ? <TrendingUp className="w-5 h-5" /> : <TrendingDown className="w-5 h-5" />}
+            ].map(tx => (
+              <div key={tx.id} className="flex items-center justify-between pb-4 border-b border-border last:border-0 last:pb-0">
+                <div className="flex items-center gap-3">
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${tx.type === 'credit' ? 'bg-success/10 text-success' : 'bg-secondary text-muted-foreground'}`}>
+                    {tx.type === 'credit' ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-slate-900">{tx.title}</p>
-                    <p className="text-xs text-slate-500 mt-0.5">{tx.date}</p>
+                    <p className="text-sm font-medium text-foreground">{tx.title}</p>
+                    <p className="text-xs text-muted-foreground">{tx.date}</p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className={`text-sm font-bold ${tx.type === 'credit' ? 'text-emerald-600' : 'text-slate-900'}`}>
-                    {tx.type === 'credit' ? '+' : ''}{formatCurrency(tx.amount)}
-                  </p>
-                </div>
+                <p className={`text-sm font-semibold ${tx.type === 'credit' ? 'text-success' : 'text-foreground'}`}>
+                  {tx.type === 'credit' ? '+' : ''}{formatCurrency(tx.amount)}
+                </p>
               </div>
             ))}
           </div>
