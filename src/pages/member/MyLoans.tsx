@@ -28,21 +28,63 @@ export const MyLoans = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-heading font-bold text-foreground">My Loans</h1>
+          <h1 className="text-xl sm:text-2xl font-heading font-bold text-foreground">My Loans</h1>
           <p className="text-muted-foreground text-sm mt-1">Track your active loans and repayment history.</p>
         </div>
-        <div className="bg-card rounded-lg border border-border p-0.5 flex w-full md:w-auto min-w-max">
+        <div className="bg-card rounded-lg border border-border p-0.5 flex w-full sm:w-auto">
           {['all', 'active', 'pending', 'cleared'].map(f => (
-            <button key={f} onClick={() => setFilter(f)} className={`px-3 py-1.5 rounded-md text-xs font-medium capitalize transition-colors ${filter === f ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}>
+            <button key={f} onClick={() => setFilter(f)} className={`flex-1 sm:flex-none px-3 py-1.5 rounded-md text-xs font-medium capitalize transition-colors ${filter === f ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}>
               {f}
             </button>
           ))}
         </div>
       </div>
 
-      <div className="bg-card rounded-xl border border-border overflow-hidden">
+      {/* Mobile card view */}
+      <div className="space-y-3 md:hidden">
+        {filteredLoans.map(loan => {
+          const progress = loan.status === 'cleared' ? 100 : loan.status === 'pending' ? 0 : (loan.amount_paid / loan.total_repayment_amount) * 100;
+          return (
+            <div key={loan.id} onClick={() => navigate(`/member/loans/${loan.id}`)} className="bg-card rounded-xl border border-border p-4 cursor-pointer hover:border-primary/30 transition-colors active:scale-[0.99]">
+              <div className="flex items-start justify-between mb-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-secondary overflow-hidden shrink-0">
+                    <img src={loan.product.image_url} alt={loan.product.name} className="w-full h-full object-cover" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground line-clamp-1">{loan.product.name}</p>
+                    <p className="text-[10px] text-muted-foreground">{new Date(loan.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+                  </div>
+                </div>
+                {getStatusBadge(loan.status)}
+              </div>
+              <div className="flex items-center justify-between mb-2">
+                <div>
+                  <p className="text-base font-heading font-bold text-foreground">{formatCurrency(loan.total_loan_amount)}</p>
+                  <p className="text-[10px] text-muted-foreground">{formatCurrency(loan.monthly_installment)}/mo</p>
+                </div>
+                <span className="text-xs font-semibold text-primary">Details →</span>
+              </div>
+              {loan.status !== 'pending' && (
+                <div>
+                  <div className="flex justify-between text-[10px] mb-1">
+                    <span className="font-medium text-muted-foreground">Paid: {formatCurrency(loan.amount_paid)}</span>
+                    <span className="text-muted-foreground">{Math.round(progress)}%</span>
+                  </div>
+                  <div className="w-full h-1.5 bg-secondary rounded-full overflow-hidden">
+                    <div className={`h-full rounded-full ${progress === 100 ? 'bg-success' : 'bg-primary'}`} style={{ width: `${progress}%` }} />
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Desktop table view */}
+      <div className="bg-card rounded-xl border border-border overflow-hidden hidden md:block">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
@@ -99,6 +141,8 @@ export const MyLoans = () => {
         </div>
         {filteredLoans.length === 0 && <div className="text-center py-12 text-sm text-muted-foreground">No loans found.</div>}
       </div>
+
+      {filteredLoans.length === 0 && <div className="text-center py-12 text-sm text-muted-foreground md:hidden">No loans found.</div>}
     </div>
   );
 };

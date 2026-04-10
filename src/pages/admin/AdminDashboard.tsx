@@ -23,63 +23,63 @@ export const AdminDashboard = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
         <div>
-          <h1 className="text-2xl font-heading font-bold text-foreground">Overview</h1>
+          <h1 className="text-xl sm:text-2xl font-heading font-bold text-foreground">Overview</h1>
           <p className="text-muted-foreground text-sm mt-1">Platform-wide statistics and pending actions.</p>
         </div>
-        <div className="flex flex-wrap gap-2 w-full md:w-auto">
-          <button onClick={() => navigate('/admin/products')} className="flex-1 md:flex-none px-4 py-2 bg-card border border-border text-foreground rounded-lg text-sm font-medium hover:bg-secondary transition-colors text-center">
-            Manage Products
+        <div className="flex gap-2 w-full sm:w-auto">
+          <button onClick={() => navigate('/admin/products')} className="flex-1 sm:flex-none px-3 sm:px-4 py-2 bg-card border border-border text-foreground rounded-lg text-xs sm:text-sm font-medium hover:bg-secondary transition-colors text-center">
+            Products
           </button>
-          <button onClick={() => navigate('/admin/loans')} className="flex-1 md:flex-none px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:opacity-90 transition-all text-center">
-            Review Requests
+          <button onClick={() => navigate('/admin/loans')} className="flex-1 sm:flex-none px-3 sm:px-4 py-2 bg-primary text-primary-foreground rounded-lg text-xs sm:text-sm font-medium hover:opacity-90 transition-all text-center">
+            Review
           </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {stats.map(({ label, value, icon: Icon, color, badge }) => (
-          <div key={label} className="bg-card p-5 rounded-xl border border-border">
-            <div className="flex justify-between items-start mb-3">
-              <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${color}`}><Icon className="w-4 h-4" /></div>
-              {badge && <span className="text-[10px] font-bold px-2 py-0.5 bg-warning/10 text-warning rounded-full">{badge}</span>}
+          <div key={label} className="bg-card p-3.5 sm:p-5 rounded-xl border border-border">
+            <div className="flex justify-between items-start mb-2 sm:mb-3">
+              <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center ${color}`}><Icon className="w-4 h-4" /></div>
+              {badge && <span className="text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 bg-warning/10 text-warning rounded-full hidden sm:inline">{badge}</span>}
             </div>
-            <h3 className="text-xl font-heading font-bold text-foreground">{typeof value === 'number' ? value : value}</h3>
-            <p className="text-xs text-muted-foreground mt-0.5">{label}</p>
+            <h3 className="text-base sm:text-xl font-heading font-bold text-foreground">{typeof value === 'number' ? value : value}</h3>
+            <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5">{label}</p>
           </div>
         ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <div className="lg:col-span-2 bg-card p-5 rounded-xl border border-border">
+        <div className="lg:col-span-2 bg-card p-4 sm:p-5 rounded-xl border border-border">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-sm font-heading font-semibold text-foreground">Loan Request Activity</h3>
             <select className="bg-secondary border-none text-xs font-medium text-muted-foreground rounded-md outline-none focus:ring-0 py-1.5 px-2">
               <option>This Week</option><option>Last Week</option><option>This Month</option>
             </select>
           </div>
-          <div className="h-[280px] w-full">
+          <div className="h-[220px] sm:h-[280px] w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
+              <BarChart data={data} margin={{ top: 5, right: 5, left: -15, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(210,24%,90%)" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'hsl(210,18%,45%)', fontSize: 12 }} dy={8} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fill: 'hsl(210,18%,45%)', fontSize: 12 }} dx={-5} />
-                <RechartsTooltip cursor={{ fill: 'hsl(210,33%,96%)' }} contentStyle={{ borderRadius: '8px', border: '1px solid hsl(210,24%,87%)', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', fontSize: 13 }} />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: 'hsl(210,18%,45%)', fontSize: 11 }} dy={8} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: 'hsl(210,18%,45%)', fontSize: 11 }} dx={-5} />
+                <RechartsTooltip cursor={{ fill: 'hsl(210,33%,96%)' }} contentStyle={{ borderRadius: '8px', border: '1px solid hsl(210,24%,87%)', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', fontSize: 12 }} />
                 <Bar dataKey="value" fill="hsl(200, 55%, 39%)" radius={[4, 4, 0, 0]} barSize={28} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        <div className="bg-card p-5 rounded-xl border border-border flex flex-col">
+        <div className="bg-card p-4 sm:p-5 rounded-xl border border-border flex flex-col">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-sm font-heading font-semibold text-foreground">Pending Approvals</h3>
             <button onClick={() => navigate('/admin/loans')} className="text-xs font-medium text-primary hover:underline">View all</button>
           </div>
           <div className="space-y-3 flex-1 overflow-y-auto">
             {pendingLoans.length > 0 ? pendingLoans.map(loan => (
-              <div key={loan.id} className="p-3.5 rounded-lg border border-border bg-secondary/30 hover:bg-secondary/50 transition-colors">
+              <div key={loan.id} className="p-3 sm:p-3.5 rounded-lg border border-border bg-secondary/30 hover:bg-secondary/50 transition-colors">
                 <div className="flex justify-between items-start mb-1.5">
                   <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">{new Date(loan.created_at).toLocaleDateString()}</span>
                   <span className="text-[10px] font-bold text-warning bg-warning/10 px-1.5 py-0.5 rounded uppercase">Pending</span>

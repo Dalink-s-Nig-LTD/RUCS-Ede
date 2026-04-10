@@ -41,27 +41,27 @@ export const LoanDetail = () => {
   const installments = generateInstallments();
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6 pb-8">
+    <div className="max-w-5xl mx-auto space-y-5 sm:space-y-6 pb-8">
       <div className="flex items-center justify-between">
         <button onClick={() => navigate('/member/loans')} className="flex items-center text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-          <ArrowLeft className="w-4 h-4 mr-1.5" />Back to Loans
+          <ArrowLeft className="w-4 h-4 mr-1.5" />Back
         </button>
         <button className="flex items-center px-3 py-2 bg-card border border-border rounded-lg text-xs font-semibold text-foreground hover:bg-secondary transition-colors">
-          <Download className="w-3.5 h-3.5 mr-1.5" />Statement
+          <Download className="w-3.5 h-3.5 mr-1.5" /><span className="hidden sm:inline">Statement</span>
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         <div className="space-y-4">
-          <div className="bg-card rounded-xl p-5 border border-border relative">
+          <div className="bg-card rounded-xl p-4 sm:p-5 border border-border relative">
             <div className="absolute top-4 right-4">{getStatusBadge(loan.status)}</div>
-            <div className="w-14 h-14 bg-secondary rounded-lg p-1.5 mb-4 border border-border flex items-center justify-center">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 bg-secondary rounded-lg p-1.5 mb-4 border border-border flex items-center justify-center">
               <img src={loan.product.image_url} alt={loan.product.name} className="w-full h-full object-contain" />
             </div>
-            <h2 className="font-heading font-bold text-foreground text-lg leading-tight mb-1">{loan.product.name}</h2>
+            <h2 className="font-heading font-bold text-foreground text-base sm:text-lg leading-tight mb-1 pr-20">{loan.product.name}</h2>
             <p className="text-xs text-muted-foreground mb-4">Ref: #{loan.id.toUpperCase()}</p>
             <div className="space-y-3 text-sm">
-              <div className="flex justify-between pb-3 border-b border-border"><span className="text-muted-foreground">Requested</span><span className="font-medium text-foreground">{new Date(loan.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</span></div>
+              <div className="flex justify-between pb-3 border-b border-border"><span className="text-muted-foreground">Requested</span><span className="font-medium text-foreground text-right">{new Date(loan.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</span></div>
               <div className="flex justify-between pb-3 border-b border-border"><span className="text-muted-foreground">Duration</span><span className="font-medium text-foreground">{loan.repayment_duration_months} Months</span></div>
               <div className="flex justify-between"><span className="text-muted-foreground">Monthly</span><span className="font-semibold text-foreground">{formatCurrency(loan.monthly_installment)}</span></div>
             </div>
@@ -81,7 +81,7 @@ export const LoanDetail = () => {
               </div>
             )}
           </div>
-          <div className="bg-ocean-deep rounded-xl p-5 text-white">
+          <div className="bg-ocean-deep rounded-xl p-4 sm:p-5 text-white">
             <div className="flex items-center gap-2 mb-3"><FileText className="w-4 h-4 text-white/50" /><h3 className="font-heading font-bold text-sm">Need Help?</h3></div>
             <p className="text-xs text-white/50 mb-4 leading-relaxed">If you notice any discrepancies, please contact the cooperative office.</p>
             <button className="w-full py-2.5 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-bold transition-colors">Contact Support</button>
@@ -90,33 +90,33 @@ export const LoanDetail = () => {
 
         <div className="lg:col-span-2">
           <div className="bg-card rounded-xl border border-border overflow-hidden h-full flex flex-col">
-            <div className="p-5 border-b border-border">
+            <div className="p-4 sm:p-5 border-b border-border">
               <h2 className="font-heading font-bold text-foreground">Repayment Schedule</h2>
               <p className="text-xs text-muted-foreground mt-0.5">Monthly deduction breakdown.</p>
             </div>
-            <div className="p-4 flex-1 overflow-auto">
-              <div className="space-y-2.5">
+            <div className="p-3 sm:p-4 flex-1 overflow-auto">
+              <div className="space-y-2 sm:space-y-2.5">
                 {installments.map(inst => (
-                  <div key={inst.id} className={`flex items-center p-3 rounded-lg border transition-all ${
+                  <div key={inst.id} className={`flex items-center p-2.5 sm:p-3 rounded-lg border transition-all ${
                     inst.status === 'paid' ? 'bg-success/5 border-success/15' :
                     inst.status === 'pending' ? 'bg-card border-border opacity-50' :
                     inst.status === 'partial' ? 'bg-primary/5 border-primary/15' :
                     'bg-card border-border hover:border-primary/30'
                   }`}>
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs shrink-0 ${
+                    <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-bold text-xs shrink-0 ${
                       inst.status === 'paid' ? 'bg-success/15 text-success' :
                       inst.status === 'pending' ? 'bg-secondary text-muted-foreground' :
                       inst.status === 'partial' ? 'bg-primary/15 text-primary' :
                       'bg-secondary text-muted-foreground'
                     }`}>
-                      {inst.status === 'paid' ? <CheckCircle className="w-4 h-4" /> : inst.month}
+                      {inst.status === 'paid' ? <CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : inst.month}
                     </div>
-                    <div className="ml-3 flex-1">
-                      <p className="text-sm font-medium text-foreground">{inst.date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
-                      <p className="text-[10px] text-muted-foreground">Due by 25th</p>
+                    <div className="ml-2.5 sm:ml-3 flex-1 min-w-0">
+                      <p className="text-xs sm:text-sm font-medium text-foreground truncate">{inst.date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</p>
+                      <p className="text-[10px] text-muted-foreground hidden sm:block">Due by 25th</p>
                     </div>
-                    <div className="text-right">
-                      <p className="text-sm font-semibold text-foreground">{formatCurrency(inst.amount)}</p>
+                    <div className="text-right shrink-0">
+                      <p className="text-xs sm:text-sm font-semibold text-foreground">{formatCurrency(inst.amount)}</p>
                       <span className={`text-[9px] font-bold uppercase tracking-wider ${
                         inst.status === 'paid' ? 'text-success' : inst.status === 'pending' ? 'text-muted-foreground' : inst.status === 'partial' ? 'text-primary' : 'text-warning'
                       }`}>{inst.status}</span>
