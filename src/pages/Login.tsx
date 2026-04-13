@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { LogIn, ShieldCheck, Users, TrendingUp } from 'lucide-react';
+import { LogIn, ShieldCheck, Users, TrendingUp, UserCog } from 'lucide-react';
 import rucsLogo from '@/assets/rucs-logo.png';
 
 export const Login = () => {
@@ -57,7 +57,7 @@ export const Login = () => {
             <p className="text-muted-foreground mt-1 text-sm">Sign in with your institutional Google account.</p>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             <button
               onClick={() => navigate('/member')}
               className="w-full flex justify-center items-center py-3.5 px-4 bg-card border border-border rounded-lg shadow-sm text-sm font-semibold text-foreground hover:bg-secondary transition-all duration-200"
@@ -69,6 +69,14 @@ export const Login = () => {
                 <path d="M12.0004 24.0001C15.2404 24.0001 17.9654 22.935 19.9454 21.095L16.0804 18.095C15.0054 18.82 13.6204 19.245 12.0004 19.245C8.8704 19.245 6.21537 17.135 5.26538 14.29L1.27539 17.385C3.25539 21.31 7.3104 24.0001 12.0004 24.0001Z" fill="#34A853" />
               </svg>
               Sign in as Member
+            </button>
+
+            <button
+              onClick={() => navigate('/officer')}
+              className="w-full flex justify-center items-center py-3.5 px-4 bg-card border border-border rounded-lg shadow-sm text-sm font-semibold text-foreground hover:bg-secondary transition-all duration-200"
+            >
+              <UserCog className="w-5 h-5 mr-2 text-ocean-accent" />
+              Sign in as Loan Officer
             </button>
 
             <button
