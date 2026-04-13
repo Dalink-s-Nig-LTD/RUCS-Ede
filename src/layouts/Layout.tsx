@@ -3,9 +3,9 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, ShoppingBag, CreditCard, Bell, LogOut,
   Users, Box, FileText, CheckCircle, Info, AlertCircle,
-  Sun, Moon, Menu, X
+  Sun, Moon, Menu, X, ClipboardCheck, DollarSign, AlertTriangle
 } from 'lucide-react';
-import { mockUser, mockAdmin } from '@/data/mockData';
+import { mockUser, mockAdmin, mockOfficer } from '@/data/mockData';
 import rucsLogo from '@/assets/rucs-logo.png';
 
 const NOTIFS = [
@@ -15,14 +15,14 @@ const NOTIFS = [
   { id: 4, type: "success", title: "Loan Cleared", message: "You have fully repaid Sony Headphones. Total: ₦367,500.", time: "3 months ago", read: true },
 ];
 
-export const Layout = ({ role }: { role: 'member' | 'admin' }) => {
+export const Layout = ({ role }: { role: 'member' | 'admin' | 'officer' }) => {
   const navigate = useNavigate();
   const [showNotifs, setShowNotifs] = useState(false);
   const [notifications, setNotifications] = useState(NOTIFS);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const notifRef = useRef<HTMLDivElement>(null);
-  const user = role === 'member' ? mockUser : mockAdmin;
+  const user = role === 'member' ? mockUser : role === 'officer' ? mockOfficer : mockAdmin;
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDarkMode);
@@ -48,7 +48,14 @@ export const Layout = ({ role }: { role: 'member' | 'admin' }) => {
   const memberLinks = [
     { name: 'Dashboard', path: '/member', icon: LayoutDashboard },
     { name: 'Shop', path: '/member/shop', icon: ShoppingBag },
-    { name: 'My Loans', path: '/member/loans', icon: CreditCard },
+    { name: 'Apply for Loan', path: '/member/apply-loan', icon: CreditCard },
+    { name: 'My Loans', path: '/member/loans', icon: FileText },
+  ];
+  const officerLinks = [
+    { name: 'Dashboard', path: '/officer', icon: LayoutDashboard },
+    { name: 'Loan Approvals', path: '/officer', icon: ClipboardCheck },
+    { name: 'Record Deposit', path: '/officer', icon: DollarSign },
+    { name: 'Overdue Loans', path: '/officer', icon: AlertTriangle },
   ];
   const adminLinks = [
     { name: 'Overview', path: '/admin', icon: LayoutDashboard },
@@ -57,7 +64,9 @@ export const Layout = ({ role }: { role: 'member' | 'admin' }) => {
     { name: 'Members', path: '/admin/members', icon: Users },
     { name: 'Audit Log', path: '/admin/audit', icon: FileText },
   ];
-  const links = role === 'member' ? memberLinks : adminLinks;
+
+  const links = role === 'member' ? memberLinks : role === 'officer' ? officerLinks : adminLinks;
+  const portalLabel = role === 'member' ? 'Member Portal' : role === 'officer' ? 'Officer Portal' : 'Admin Portal';
 
   return (
     <div className="flex h-screen bg-background font-body text-foreground overflow-hidden transition-colors duration-200">
@@ -65,7 +74,6 @@ export const Layout = ({ role }: { role: 'member' | 'admin' }) => {
         <div className="fixed inset-0 bg-foreground/40 backdrop-blur-sm z-40 lg:hidden" onClick={() => setIsMobileMenuOpen(false)} />
       )}
 
-      {/* Sidebar */}
       <aside className={`fixed inset-y-0 left-0 z-50 w-60 bg-sidebar flex flex-col justify-between transition-transform duration-300 lg:relative lg:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div>
           <div className="h-16 flex items-center justify-between px-5 border-b border-sidebar-border">
@@ -78,11 +86,11 @@ export const Layout = ({ role }: { role: 'member' | 'admin' }) => {
             </button>
           </div>
           <nav className="p-3 space-y-0.5 mt-2">
-            {links.map(link => (
+            {links.map((link, i) => (
               <NavLink
-                key={link.path}
+                key={`${link.path}-${i}`}
                 to={link.path}
-                end={link.path === '/member' || link.path === '/admin'}
+                end={link.path === '/member' || link.path === '/admin' || link.path === '/officer'}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={({ isActive }) =>
                   `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
@@ -109,15 +117,14 @@ export const Layout = ({ role }: { role: 'member' | 'admin' }) => {
         </div>
       </aside>
 
-      {/* Main */}
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <header className="h-14 bg-card border-b border-border flex items-center justify-between px-4 md:px-6 shrink-0">
           <div className="flex items-center gap-3">
             <button className="lg:hidden p-1.5 text-muted-foreground hover:text-foreground rounded-md" onClick={() => setIsMobileMenuOpen(true)}>
               <Menu className="w-5 h-5" />
             </button>
-            <h2 className="text-sm font-heading font-semibold text-foreground capitalize hidden sm:block">
-              {role} Portal
+            <h2 className="text-sm font-heading font-semibold text-foreground hidden sm:block">
+              {portalLabel}
             </h2>
           </div>
           <div className="flex items-center gap-1 sm:gap-3" ref={notifRef}>
