@@ -267,7 +267,7 @@ export const AdminMembers = () => {
             <div className="p-5 space-y-3.5">
               <div><label className="block text-xs text-muted-foreground mb-1">Full Name</label><input type="text" placeholder="John Doe" className="w-full bg-secondary/50 border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:border-primary" /></div>
               <div><label className="block text-xs text-muted-foreground mb-1">Email</label><input type="email" placeholder="user@run.edu.ng" className="w-full bg-secondary/50 border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:border-primary" /></div>
-              <div><label className="block text-xs text-muted-foreground mb-1">Role</label><select className="w-full bg-secondary/50 border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:border-primary"><option value="member">Member</option><option value="admin">Admin</option></select></div>
+              <div><label className="block text-xs text-muted-foreground mb-1">Role</label><select className="w-full bg-secondary/50 border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:border-primary"><option value="member">Member</option><option value="loan_officer">Loan Officer</option><option value="treasurer">Treasurer</option><option value="admin">Admin</option></select></div>
             </div>
             <div className="px-5 py-3 bg-secondary/50 border-t border-border flex justify-end gap-2">
               <button onClick={() => setShowAddUser(false)} className="px-3 py-2 text-sm text-muted-foreground hover:bg-secondary rounded-md transition-colors">Cancel</button>
