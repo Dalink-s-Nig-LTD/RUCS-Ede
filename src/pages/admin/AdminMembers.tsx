@@ -154,13 +154,38 @@ export const AdminMembers = () => {
                 <div className="p-4 rounded-lg bg-secondary/50 border border-border space-y-3">
                   <div className="flex items-center gap-2.5 text-xs text-muted-foreground"><Mail className="w-3.5 h-3.5 shrink-0" /><span className="truncate">{selectedMember.email}</span></div>
                   <div className="flex items-center gap-2.5 text-xs text-muted-foreground"><Calendar className="w-3.5 h-3.5 shrink-0" /><span>Joined: {selectedMember.joined || 'N/A'}</span></div>
-                  <div className="flex items-center gap-2.5 text-xs text-muted-foreground"><Key className="w-3.5 h-3.5 shrink-0" /><span>Password: ******** (Set)</span></div>
                   <div className="pt-3 border-t border-border">
                     <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Status</span>
-                    <div className="mt-1.5">
+                    <div className="mt-1.5 flex items-center gap-2">
                       <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase border ${selectedMember.status === 'active' ? 'bg-success/10 text-success border-success/20' : 'bg-destructive/10 text-destructive border-destructive/20'}`}>
                         {selectedMember.status.replace('_', ' ')}
                       </span>
+                      <button onClick={() => {
+                        const newStatus = selectedMember.status === 'active' ? 'suspended' : 'active';
+                        setMembers(members.map(m => m.id === selectedMember.id ? { ...m, status: newStatus } : m));
+                        setSelectedMember({ ...selectedMember, status: newStatus });
+                      }} className={`px-2 py-1 rounded-md text-[10px] font-bold transition-colors ${selectedMember.status === 'active' ? 'bg-destructive/10 text-destructive hover:bg-destructive/20' : 'bg-success/10 text-success hover:bg-success/20'}`}>
+                        {selectedMember.status === 'active' ? <><Ban className="w-3 h-3 inline mr-1" />Suspend</> : <><CheckCircle className="w-3 h-3 inline mr-1" />Activate</>}
+                      </button>
+                    </div>
+                  </div>
+                  <div className="pt-3 border-t border-border">
+                    <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Role</span>
+                    <div className="mt-1.5">
+                      <select
+                        value={selectedMember.role}
+                        onChange={e => {
+                          const newRole = e.target.value;
+                          setMembers(members.map(m => m.id === selectedMember.id ? { ...m, role: newRole } : m));
+                          setSelectedMember({ ...selectedMember, role: newRole });
+                        }}
+                        className="w-full px-2 py-1.5 bg-card border border-border rounded-md text-xs font-medium focus:outline-none focus:ring-2 focus:ring-primary/30 appearance-none capitalize"
+                      >
+                        <option value="member">Member</option>
+                        <option value="loan_officer">Loan Officer</option>
+                        <option value="treasurer">Treasurer</option>
+                        <option value="admin">Admin</option>
+                      </select>
                     </div>
                   </div>
                 </div>
