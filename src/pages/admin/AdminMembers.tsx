@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, Filter, Edit, X, PiggyBank, CreditCard, UserPlus, Activity, Mail, Calendar, Key, Image as ImageIcon, DollarSign } from 'lucide-react';
+import { Search, Filter, Edit, X, PiggyBank, CreditCard, UserPlus, Activity, Mail, Calendar, Key, Image as ImageIcon, DollarSign, Shield, Ban, CheckCircle } from 'lucide-react';
 import { mockMembers, mockLoans, formatCurrency } from '@/data/mockData';
 
 export const AdminMembers = () => {
