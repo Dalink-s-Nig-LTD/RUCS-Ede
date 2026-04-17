@@ -48,9 +48,9 @@ const executives = [
 ];
 
 const testimonials = [
-  { name: "Dr. Sarah Bamidele", role: "Lecturer, Dept. of Sciences", quote: "RUCS helped me fund my PhD research when I needed it most. The process was seamless and the interest rate unbeatable." },
-  { name: "Mr. Chidi Okafor", role: "IT Department", quote: "I've been saving with RUCS for 3 years. The discipline it instills and the returns I earn are worth every naira." },
-  { name: "Mrs. Grace Obi", role: "Admin Officer", quote: "When my family faced an emergency, RUCS disbursed my loan within 48 hours. This cooperative truly cares." },
+  { name: "Dr. Sarah Bamidele", role: "Lecturer, Dept. of Sciences", quote: "RUNSMSL helped me fund my PhD research when I needed it most. The process was seamless and the interest rate unbeatable." },
+  { name: "Mr. Chidi Okafor", role: "IT Department", quote: "I've been saving with RUNSMSL for 3 years. The discipline it instills and the returns I earn are worth every naira." },
+  { name: "Mrs. Grace Obi", role: "Admin Officer", quote: "When my family faced an emergency, RUNSMSL disbursed my loan within 48 hours. This cooperative truly cares." },
 ];
 
 const news = [
@@ -69,7 +69,7 @@ const galleryImages = [
 ];
 
 const faqs = [
-  { q: "Who can join RUCS?", a: "All confirmed staff of Redeemer's University (academic and non-academic) with a valid @run.edu.ng email are eligible to join." },
+  { q: "Who can join RUNSMSL?", a: "All confirmed staff of Redeemer's University (academic and non-academic) with a valid @run.edu.ng email are eligible to join." },
   { q: "What is the minimum monthly contribution?", a: "The minimum mandatory contribution is ₦50,000 per month, deducted directly from your salary. You can also make voluntary top-ups." },
   { q: "How much can I borrow?", a: "You can borrow up to 3× your total savings balance. For example, if you have ₦500,000 saved, you can access up to ₦1,500,000." },
   { q: "How long does loan approval take?", a: "Most loans are reviewed within 24–48 hours. Emergency loans may be fast-tracked for same-day approval." },
@@ -94,7 +94,7 @@ export const LandingPage = () => {
             <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center">
               <Building2 className="h-5 w-5 text-primary-foreground" />
             </div>
-            <span className="font-heading text-lg font-bold text-foreground">RUCS</span>
+            <span className="font-heading text-lg font-bold text-foreground">RUNSMSL</span>
           </div>
           <div className="hidden md:flex items-center gap-6 text-sm font-medium text-muted-foreground">
             <a href="#about" className="hover:text-foreground transition-colors">About</a>
@@ -173,12 +173,12 @@ export const LandingPage = () => {
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
-              <Badge variant="secondary" className="mb-4">About RUCS</Badge>
+              <Badge variant="secondary" className="mb-4">About RUNSMSL</Badge>
               <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-6">
                 Empowering Redeemer's University Staff Through Collective Savings
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                The Redeemer's University Cooperative Society (RUCS) was established in 2010 to provide a reliable, transparent, and member-owned financial platform for university staff. We believe that when we save together, we grow together.
+                The Run Staff Cooperative Multipurpose Society Limited (RUNSMSL) was established in 2010 to provide a reliable, transparent, and member-owned financial platform for university staff. We believe that when we save together, we grow together.
               </p>
               <div className="space-y-4">
                 <div className="flex gap-3">
@@ -238,7 +238,7 @@ export const LandingPage = () => {
         <div className="container mx-auto px-4 lg:px-8">
           <div className="text-center mb-14">
             <Badge variant="secondary" className="mb-4">Membership</Badge>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">How to Join RUCS</h2>
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">How to Join RUNSMSL</h2>
             <p className="text-muted-foreground max-w-xl mx-auto">Getting started is simple. Follow these four steps and begin your journey to financial growth.</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -267,7 +267,7 @@ export const LandingPage = () => {
           <div className="text-center mb-14">
             <Badge variant="secondary" className="mb-4">Why Join</Badge>
             <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">Benefits of Membership</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">RUCS offers more than savings — it's a complete financial support system for university staff.</p>
+            <p className="text-muted-foreground max-w-xl mx-auto">RUNSMSL offers more than savings — it's a complete financial support system for university staff.</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {benefits.map((b) => (
@@ -451,7 +451,7 @@ export const LandingPage = () => {
         <div className="container mx-auto px-4 lg:px-8">
           <div className="text-center mb-14">
             <Badge variant="secondary" className="mb-4">Gallery</Badge>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">Life at RUCS</h2>
+            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">Life at RUNSMSL</h2>
             <p className="text-muted-foreground max-w-xl mx-auto">Glimpses from our meetings, events, and welfare activities.</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -459,7 +459,7 @@ export const LandingPage = () => {
               <div key={i} className="relative overflow-hidden rounded-xl group">
                 <img
                   src={img}
-                  alt={`RUCS event ${i + 1}`}
+                  alt={`RUNSMSL event ${i + 1}`}
                   className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-300"
                   loading="lazy"
                 />
@@ -502,7 +502,7 @@ export const LandingPage = () => {
                 Ready to Start Building Your Future?
               </h2>
               <p className="text-primary-foreground/80 max-w-xl mx-auto mb-8 text-lg">
-                Join RUCS today and take the first step toward financial security, affordable credit, and a supportive community.
+                Join RUNSMSL today and take the first step toward financial security, affordable credit, and a supportive community.
               </p>
               <Link to="/login">
                 <Button size="lg" className="bg-primary-foreground text-ocean-deep hover:bg-primary-foreground/90 font-semibold text-base px-10 gap-2 mb-8">
@@ -534,10 +534,10 @@ export const LandingPage = () => {
                 <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
                   <Building2 className="h-4 w-4 text-primary-foreground" />
                 </div>
-                <span className="font-heading font-bold text-primary-foreground">RUCS</span>
+                <span className="font-heading font-bold text-primary-foreground">RUNSMSL</span>
               </div>
               <p className="text-sm text-primary-foreground/60 leading-relaxed">
-                Redeemer's University Cooperative Society — empowering staff through collective savings since 2010.
+                Run Staff Cooperative Multipurpose Society Limited — empowering staff through collective savings since 2010.
               </p>
             </div>
             <div>
@@ -568,7 +568,7 @@ export const LandingPage = () => {
             </div>
           </div>
           <div className="border-t border-primary-foreground/10 pt-6 text-center text-xs text-primary-foreground/40">
-            © {new Date().getFullYear()} Redeemer's University Cooperative Society. All rights reserved.
+            © {new Date().getFullYear()} Run Staff Cooperative Multipurpose Society Limited. All rights reserved.
           </div>
         </div>
       </footer>
