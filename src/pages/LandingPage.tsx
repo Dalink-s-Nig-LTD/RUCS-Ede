@@ -4,141 +4,69 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import {
-  Users, Shield, TrendingUp, Wallet, GraduationCap, Home, Briefcase, Heart,
   ArrowRight, CheckCircle, Phone, Mail, MessageCircle, ChevronRight, Star,
-  Target, Eye, BookOpen, Calendar, Image as ImageIcon, HandCoins, PiggyBank,
-  BadgeCheck, Clock, Building2, Scale
+  Target, Eye, Calendar, HandCoins, PiggyBank, BadgeCheck, Scale,
 } from "lucide-react";
+import { Navbar } from "./landing/Navbar";
+import {
+  stats, benefits, loanTypes, howItWorksSteps, executives,
+  testimonials, news, galleryImages, faqs, joinSteps,
+} from "./landing/data";
+import rucsLogo from "@/assets/rucs-logo.png";
 
-const stats = [
-  { value: "2,500+", label: "Active Members", icon: Users },
-  { value: "15+", label: "Years in Operation", icon: Clock },
-  { value: "₦3.2B+", label: "Total Savings Managed", icon: PiggyBank },
-  { value: "₦1.8B+", label: "Loans Disbursed", icon: HandCoins },
-];
+const Section = ({ id, alt, children }: { id?: string; alt?: boolean; children: React.ReactNode }) => (
+  <section id={id} className={`py-12 sm:py-16 lg:py-20 ${alt ? "bg-muted/40" : ""}`}>
+    <div className="container mx-auto px-4 lg:px-8">{children}</div>
+  </section>
+);
 
-const benefits = [
-  { title: "Competitive Savings Returns", description: "Earn up to 5% annual interest on your savings — higher than most commercial banks.", icon: TrendingUp },
-  { title: "Affordable Loan Access", description: "Access loans at 12% annual rate, far below market rates, with flexible repayment.", icon: Wallet },
-  { title: "Financial Discipline", description: "Mandatory monthly contributions help you build a strong savings habit.", icon: Target },
-  { title: "Welfare & Support", description: "Emergency grants, bereavement support, and member welfare programs.", icon: Heart },
-  { title: "Transparency", description: "Open books, regular AGMs, and elected governance you can trust.", icon: Shield },
-  { title: "Community", description: "Join a network of Redeemer's University staff committed to mutual financial growth.", icon: Users },
-];
+const SectionHeader = ({ tag, title, sub }: { tag: string; title: string; sub?: string }) => (
+  <div className="text-center mb-10 lg:mb-12">
+    <Badge variant="secondary" className="mb-3">{tag}</Badge>
+    <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3">{title}</h2>
+    {sub && <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto">{sub}</p>}
+  </div>
+);
 
-const loanTypes = [
-  { title: "Emergency Loan", description: "Quick disbursement for urgent needs. Up to 2× savings balance.", icon: Heart, rate: "12%", tenure: "3–6 months" },
-  { title: "Education Loan", description: "Fund tuition, training, or professional development for you or dependents.", icon: GraduationCap, rate: "12%", tenure: "6–12 months" },
-  { title: "Business Loan", description: "Start or grow a side business with affordable capital.", icon: Briefcase, rate: "12%", tenure: "6–12 months" },
-  { title: "Housing & Asset Loan", description: "Acquire household items, electronics, or contribute towards housing.", icon: Home, rate: "12%", tenure: "12 months" },
-];
-
-const howItWorksSteps = [
-  { step: "01", title: "Join & Contribute", description: "Register as a member and start making monthly contributions (min. ₦50,000).", icon: Users },
-  { step: "02", title: "Save & Earn", description: "Your savings earn 5% annual interest, credited quarterly to your account.", icon: PiggyBank },
-  { step: "03", title: "Borrow Affordably", description: "After 3 months, access loans up to 3× your savings at just 12% per annum.", icon: HandCoins },
-  { step: "04", title: "Repay & Grow", description: "Repay via convenient monthly deductions. Your limit grows as you save more.", icon: TrendingUp },
-];
-
-const executives = [
-  { name: "Prof. Akinwale Thompson", role: "President", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200&h=200" },
-  { name: "Mrs. Folake Adeyemi", role: "Treasurer", image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200&h=200" },
-  { name: "Dr. Uche Nwosu", role: "Secretary", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200&h=200" },
-  { name: "Mr. Emmanuel Eze", role: "Loan Officer", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200&h=200" },
-];
-
-const testimonials = [
-  { name: "Dr. Sarah Bamidele", role: "Lecturer, Dept. of Sciences", quote: "RUNSMSL helped me fund my PhD research when I needed it most. The process was seamless and the interest rate unbeatable." },
-  { name: "Mr. Chidi Okafor", role: "IT Department", quote: "I've been saving with RUNSMSL for 3 years. The discipline it instills and the returns I earn are worth every naira." },
-  { name: "Mrs. Grace Obi", role: "Admin Officer", quote: "When my family faced an emergency, RUNSMSL disbursed my loan within 48 hours. This cooperative truly cares." },
-];
-
-const news = [
-  { date: "April 2026", title: "2025 Dividends Declared!", description: "Members to receive 8.5% dividend on savings. Payments commence May 15th." },
-  { date: "March 2026", title: "Annual General Meeting", description: "AGM scheduled for March 28th at the University Auditorium. All members invited." },
-  { date: "February 2026", title: "New Housing Loan Scheme", description: "Introducing a new housing support loan with up to ₦5M limit for qualifying members." },
-];
-
-const galleryImages = [
-  "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=600",
-  "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&q=80&w=600",
-  "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=600",
-  "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&q=80&w=600",
-  "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=600",
-  "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=600",
-];
-
-const faqs = [
-  { q: "Who can join RUNSMSL?", a: "All confirmed staff of Redeemer's University (academic and non-academic) with a valid @run.edu.ng email are eligible to join." },
-  { q: "What is the minimum monthly contribution?", a: "The minimum mandatory contribution is ₦50,000 per month, deducted directly from your salary. You can also make voluntary top-ups." },
-  { q: "How much can I borrow?", a: "You can borrow up to 3× your total savings balance. For example, if you have ₦500,000 saved, you can access up to ₦1,500,000." },
-  { q: "How long does loan approval take?", a: "Most loans are reviewed within 24–48 hours. Emergency loans may be fast-tracked for same-day approval." },
-  { q: "Can I withdraw my savings at any time?", a: "Mandatory savings can be withdrawn upon exit from the cooperative. Voluntary savings can be withdrawn with 30 days notice." },
-  { q: "What happens if I miss a loan repayment?", a: "A gentle reminder is sent after 3 days. After 7 days, a penalty of 1% of the overdue amount applies. We work with members to find solutions." },
-];
-
-const joinSteps = [
-  { step: "1", title: "Complete Application", description: "Fill out the membership form with your staff ID and department details." },
-  { step: "2", title: "Pay Registration Fee", description: "One-time registration fee of ₦10,000 to activate your account." },
-  { step: "3", title: "Salary Deduction Setup", description: "Authorize monthly deduction from your salary through the Bursary." },
-  { step: "4", title: "Start Saving & Earning", description: "Your account is active! Begin saving and access loans after 3 months." },
-];
+// Horizontal scroll wrapper for mobile, grid on larger screens
+const HScroll = ({ children, gridClass }: { children: React.ReactNode; gridClass: string }) => (
+  <div className={`hidden sm:grid ${gridClass} gap-5`}>{children}</div>
+);
+const HScrollMobile = ({ children }: { children: React.ReactNode }) => (
+  <div className="sm:hidden -mx-4 px-4 flex gap-4 overflow-x-auto snap-x snap-mandatory pb-3 scrollbar-hide">
+    {children}
+  </div>
+);
 
 export const LandingPage = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border">
-        <div className="container mx-auto flex items-center justify-between h-16 px-4 lg:px-8">
-          <div className="flex items-center gap-2">
-            <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center">
-              <Building2 className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="font-heading text-lg font-bold text-foreground">RUNSMSL</span>
-          </div>
-          <div className="hidden md:flex items-center gap-6 text-sm font-medium text-muted-foreground">
-            <a href="#about" className="hover:text-foreground transition-colors">About</a>
-            <a href="#benefits" className="hover:text-foreground transition-colors">Benefits</a>
-            <a href="#services" className="hover:text-foreground transition-colors">Services</a>
-            <a href="#how-it-works" className="hover:text-foreground transition-colors">How It Works</a>
-            <a href="#faqs" className="hover:text-foreground transition-colors">FAQs</a>
-            <a href="#contact" className="hover:text-foreground transition-colors">Contact</a>
-          </div>
-          <div className="flex items-center gap-3">
-            <Link to="/login">
-              <Button variant="ghost" size="sm">Sign In</Button>
-            </Link>
-            <Link to="/login">
-              <Button size="sm" className="gap-1">Join Now <ArrowRight className="h-3.5 w-3.5" /></Button>
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero */}
-      <section className="relative pt-32 pb-20 lg:pt-44 lg:pb-32 overflow-hidden">
+      <section className="relative pt-24 pb-16 sm:pt-28 sm:pb-20 lg:pt-36 lg:pb-28 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-ocean-deep via-ocean-mid to-ocean-accent opacity-95" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_hsl(200_55%_39%_/_0.3),_transparent_60%)]" />
         <div className="container mx-auto px-4 lg:px-8 relative z-10">
           <div className="max-w-3xl">
-            <Badge className="mb-6 bg-primary/20 text-primary-foreground border-primary/30 hover:bg-primary/20">
+            <Badge className="mb-5 bg-primary/20 text-primary-foreground border-primary/30 hover:bg-primary/20">
               <BadgeCheck className="h-3.5 w-3.5 mr-1" /> Registered Cooperative Society
             </Badge>
-            <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6">
+            <h1 className="font-heading text-3xl sm:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-5">
               Building Wealth Together at{" "}
               <span className="text-ocean-light">Redeemer's University</span>
             </h1>
-            <p className="text-lg sm:text-xl text-primary-foreground/80 mb-8 max-w-2xl leading-relaxed">
-              Join over 2,500 staff members saving, investing, and accessing affordable loans through our trusted cooperative society — since 2010.
+            <p className="text-base sm:text-lg lg:text-xl text-primary-foreground/80 mb-7 max-w-2xl leading-relaxed">
+              Join over 2,500 staff members saving, investing, and accessing affordable loans through our trusted cooperative — since 2010.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-3">
               <Link to="/login">
-                <Button size="lg" className="bg-primary-foreground text-ocean-deep hover:bg-primary-foreground/90 font-semibold text-base px-8 gap-2">
+                <Button size="lg" className="w-full sm:w-auto bg-primary-foreground text-ocean-deep hover:bg-primary-foreground/90 font-semibold gap-2">
                   Join the Cooperative <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
               <a href="#how-it-works">
-                <Button size="lg" variant="outline" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 text-base px-8">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
                   See How It Works
                 </Button>
               </a>
@@ -147,19 +75,19 @@ export const LandingPage = () => {
         </div>
       </section>
 
-      {/* Stats Bar */}
-      <section className="relative z-20 -mt-12">
+      {/* Stats */}
+      <section className="relative z-20 -mt-10">
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {stats.map((s) => (
               <Card key={s.label} className="bg-card border-border shadow-md">
-                <CardContent className="p-5 flex items-center gap-4">
-                  <div className="h-11 w-11 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                <CardContent className="p-4 sm:p-5 flex items-center gap-3">
+                  <div className="h-10 w-10 sm:h-11 sm:w-11 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                     <s.icon className="h-5 w-5 text-primary" />
                   </div>
-                  <div>
-                    <p className="font-heading text-xl sm:text-2xl font-bold text-foreground">{s.value}</p>
-                    <p className="text-xs sm:text-sm text-muted-foreground">{s.label}</p>
+                  <div className="min-w-0">
+                    <p className="font-heading text-lg sm:text-2xl font-bold text-foreground truncate">{s.value}</p>
+                    <p className="text-xs text-muted-foreground truncate">{s.label}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -169,380 +97,372 @@ export const LandingPage = () => {
       </section>
 
       {/* About */}
-      <section id="about" className="py-20 lg:py-28">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div>
-              <Badge variant="secondary" className="mb-4">About RUNSMSL</Badge>
-              <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-6">
-                Empowering Redeemer's University Staff Through Collective Savings
-              </h2>
-              <p className="text-muted-foreground leading-relaxed mb-6">
-                The Run Staff Cooperative Multipurpose Society Limited (RUNSMSL) was established in 2010 to provide a reliable, transparent, and member-owned financial platform for university staff. We believe that when we save together, we grow together.
-              </p>
-              <div className="space-y-4">
-                <div className="flex gap-3">
-                  <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <Target className="h-5 w-5 text-primary" />
+      <Section id="about">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+          <div>
+            <Badge variant="secondary" className="mb-3">About RUNSMSL</Badge>
+            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4">
+              Empowering Staff Through Collective Savings
+            </h2>
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed mb-5">
+              The Run Staff Cooperative Multipurpose Society Limited (RUNSMSL) was established in 2010 to provide a reliable, transparent, member-owned financial platform for university staff.
+            </p>
+            <div className="space-y-3">
+              {[
+                { icon: Target, title: "Our Mission", text: "Promote financial discipline, provide affordable credit, and enhance member well-being." },
+                { icon: Eye, title: "Our Vision", text: "Be the foremost staff cooperative in Nigerian universities — trusted and member-first." },
+                { icon: Scale, title: "Our Values", text: "Transparency, mutual trust, accountability, and service to members above all." },
+              ].map(({ icon: Icon, title, text }) => (
+                <div key={title} className="flex gap-3">
+                  <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                    <Icon className="h-4 w-4 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-heading font-semibold text-foreground">Our Mission</h3>
-                    <p className="text-sm text-muted-foreground">To promote financial discipline, provide affordable credit, and enhance the economic well-being of every member.</p>
+                    <h3 className="font-heading font-semibold text-foreground text-sm">{title}</h3>
+                    <p className="text-sm text-muted-foreground">{text}</p>
                   </div>
                 </div>
-                <div className="flex gap-3">
-                  <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <Eye className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-heading font-semibold text-foreground">Our Vision</h3>
-                    <p className="text-sm text-muted-foreground">To be the foremost staff cooperative in Nigerian universities — trusted, impactful, and member-first.</p>
-                  </div>
-                </div>
-                <div className="flex gap-3">
-                  <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <Scale className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-heading font-semibold text-foreground">Our Values</h3>
-                    <p className="text-sm text-muted-foreground">Transparency, mutual trust, accountability, and service to members above all.</p>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
-            <div className="relative">
-              <img
-                src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&q=80&w=800"
-                alt="Team collaboration at Redeemer's University"
-                className="rounded-2xl shadow-lg w-full object-cover aspect-[4/3]"
-                loading="lazy"
-              />
-              <div className="absolute -bottom-6 -left-6 bg-card rounded-xl shadow-lg p-4 border border-border hidden sm:block">
-                <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-success/10 flex items-center justify-center">
-                    <CheckCircle className="h-5 w-5 text-success" />
-                  </div>
-                  <div>
-                    <p className="font-heading font-bold text-foreground">15+ Years</p>
-                    <p className="text-xs text-muted-foreground">of trusted service</p>
-                  </div>
+          </div>
+          <div className="relative">
+            <img
+              src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&q=80&w=800"
+              alt="Team collaboration at Redeemer's University"
+              className="rounded-2xl shadow-lg w-full object-cover aspect-[4/3]"
+              loading="lazy"
+            />
+            <div className="absolute -bottom-5 -left-5 bg-card rounded-xl shadow-lg p-3 border border-border hidden sm:block">
+              <div className="flex items-center gap-3">
+                <div className="h-9 w-9 rounded-full bg-success/10 flex items-center justify-center">
+                  <CheckCircle className="h-4 w-4 text-success" />
+                </div>
+                <div>
+                  <p className="font-heading font-bold text-foreground text-sm">15+ Years</p>
+                  <p className="text-xs text-muted-foreground">of trusted service</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </Section>
 
       {/* How to Join */}
-      <section className="py-20 lg:py-28 bg-muted/50">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="text-center mb-14">
-            <Badge variant="secondary" className="mb-4">Membership</Badge>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">How to Join RUNSMSL</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">Getting started is simple. Follow these four steps and begin your journey to financial growth.</p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {joinSteps.map((s, i) => (
-              <Card key={s.step} className="bg-card border-border relative overflow-hidden group hover:shadow-md transition-shadow">
-                <CardContent className="p-6">
-                  <div className="font-heading text-5xl font-bold text-primary/10 absolute top-3 right-4">{s.step}</div>
-                  <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                    <span className="font-heading font-bold text-primary">{s.step}</span>
-                  </div>
-                  <h3 className="font-heading font-semibold text-foreground mb-2">{s.title}</h3>
-                  <p className="text-sm text-muted-foreground">{s.description}</p>
-                  {i < joinSteps.length - 1 && (
-                    <ChevronRight className="absolute top-1/2 -right-3 h-6 w-6 text-border hidden lg:block" />
-                  )}
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Section alt>
+        <SectionHeader tag="Membership" title="How to Join RUNSMSL" sub="Four simple steps to financial growth." />
+        <HScrollMobile>
+          {joinSteps.map(s => (
+            <Card key={s.step} className="bg-card border-border shrink-0 w-[80%] snap-center">
+              <CardContent className="p-5">
+                <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
+                  <span className="font-heading font-bold text-primary text-sm">{s.step}</span>
+                </div>
+                <h3 className="font-heading font-semibold text-foreground mb-1 text-sm">{s.title}</h3>
+                <p className="text-sm text-muted-foreground">{s.description}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </HScrollMobile>
+        <HScroll gridClass="grid-cols-2 lg:grid-cols-4">
+          {joinSteps.map((s, i) => (
+            <Card key={s.step} className="bg-card border-border relative overflow-hidden hover:shadow-md transition-shadow">
+              <CardContent className="p-5">
+                <div className="font-heading text-5xl font-bold text-primary/10 absolute top-2 right-3">{s.step}</div>
+                <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
+                  <span className="font-heading font-bold text-primary">{s.step}</span>
+                </div>
+                <h3 className="font-heading font-semibold text-foreground mb-1">{s.title}</h3>
+                <p className="text-sm text-muted-foreground">{s.description}</p>
+                {i < joinSteps.length - 1 && (
+                  <ChevronRight className="absolute top-1/2 -right-3 h-5 w-5 text-border hidden lg:block" />
+                )}
+              </CardContent>
+            </Card>
+          ))}
+        </HScroll>
+      </Section>
 
       {/* Benefits */}
-      <section id="benefits" className="py-20 lg:py-28">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="text-center mb-14">
-            <Badge variant="secondary" className="mb-4">Why Join</Badge>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">Benefits of Membership</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">RUNSMSL offers more than savings — it's a complete financial support system for university staff.</p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {benefits.map((b) => (
-              <Card key={b.title} className="bg-card border-border hover:shadow-md transition-shadow group">
-                <CardContent className="p-6">
-                  <div className="h-11 w-11 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                    <b.icon className="h-5 w-5 text-primary" />
-                  </div>
-                  <h3 className="font-heading font-semibold text-foreground mb-2">{b.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{b.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+      <Section id="benefits">
+        <SectionHeader tag="Why Join" title="Benefits of Membership" sub="A complete financial support system for university staff." />
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+          {benefits.map((b) => (
+            <Card key={b.title} className="bg-card border-border hover:shadow-md transition-shadow group">
+              <CardContent className="p-5">
+                <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary/20 transition-colors">
+                  <b.icon className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="font-heading font-semibold text-foreground mb-1">{b.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{b.description}</p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* Testimonials */}
-      <section className="py-20 lg:py-28 bg-muted/50">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="text-center mb-14">
-            <Badge variant="secondary" className="mb-4">Testimonials</Badge>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">What Members Say</h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {testimonials.map((t) => (
-              <Card key={t.name} className="bg-card border-border">
-                <CardContent className="p-6">
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-warning text-warning" />
-                    ))}
-                  </div>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-6 italic">"{t.quote}"</p>
-                  <div>
-                    <p className="font-heading font-semibold text-foreground text-sm">{t.name}</p>
-                    <p className="text-xs text-muted-foreground">{t.role}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Financial Services */}
-      <section id="services" className="py-20 lg:py-28">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="text-center mb-14">
-            <Badge variant="secondary" className="mb-4">Financial Services</Badge>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">Loan Products & Savings Plans</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">We offer a range of loan products and savings plans designed for university staff needs.</p>
-          </div>
-          <div className="grid sm:grid-cols-2 gap-6 mb-12">
-            {loanTypes.map((l) => (
-              <Card key={l.title} className="bg-card border-border hover:shadow-md transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="h-11 w-11 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                      <l.icon className="h-5 w-5 text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-heading font-semibold text-foreground mb-1">{l.title}</h3>
-                      <p className="text-sm text-muted-foreground mb-3">{l.description}</p>
-                      <div className="flex gap-3">
-                        <Badge variant="secondary" className="text-xs">{l.rate} p.a.</Badge>
-                        <Badge variant="secondary" className="text-xs">{l.tenure}</Badge>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-          {/* Savings Plans */}
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card className="bg-gradient-to-br from-ocean-deep to-ocean-mid text-primary-foreground border-0">
-              <CardContent className="p-8">
-                <PiggyBank className="h-8 w-8 mb-4 opacity-80" />
-                <h3 className="font-heading text-xl font-bold mb-2">Mandatory Savings</h3>
-                <p className="text-primary-foreground/80 text-sm mb-4">₦50,000 minimum monthly contribution, deducted from salary. Earn 5% annual interest credited quarterly.</p>
+      {/* Services */}
+      <Section id="services" alt>
+        <SectionHeader tag="Financial Services" title="Loans & Savings Plans" sub="Designed for university staff needs." />
+        <HScrollMobile>
+          {loanTypes.map((l) => (
+            <Card key={l.title} className="bg-card border-border shrink-0 w-[80%] snap-center">
+              <CardContent className="p-5">
+                <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
+                  <l.icon className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="font-heading font-semibold text-foreground mb-1">{l.title}</h3>
+                <p className="text-sm text-muted-foreground mb-3">{l.description}</p>
                 <div className="flex gap-2">
-                  <Badge className="bg-primary-foreground/20 text-primary-foreground border-0">5% Interest</Badge>
-                  <Badge className="bg-primary-foreground/20 text-primary-foreground border-0">Auto-deduct</Badge>
+                  <Badge variant="secondary" className="text-xs">{l.rate} p.a.</Badge>
+                  <Badge variant="secondary" className="text-xs">{l.tenure}</Badge>
                 </div>
               </CardContent>
             </Card>
-            <Card className="bg-gradient-to-br from-success/90 to-success border-0">
-              <CardContent className="p-8">
-                <HandCoins className="h-8 w-8 mb-4 text-success-foreground opacity-80" />
-                <h3 className="font-heading text-xl font-bold text-success-foreground mb-2">Voluntary Savings</h3>
-                <p className="text-success-foreground/80 text-sm mb-4">Top up anytime with any amount. Withdrawable with 30 days notice. Same 5% annual interest rate.</p>
-                <div className="flex gap-2">
-                  <Badge className="bg-success-foreground/20 text-success-foreground border-0">Flexible</Badge>
-                  <Badge className="bg-success-foreground/20 text-success-foreground border-0">5% Interest</Badge>
+          ))}
+        </HScrollMobile>
+        <HScroll gridClass="grid-cols-2">
+          {loanTypes.map((l) => (
+            <Card key={l.title} className="bg-card border-border hover:shadow-md transition-shadow">
+              <CardContent className="p-5">
+                <div className="flex items-start gap-4">
+                  <div className="h-11 w-11 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                    <l.icon className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-heading font-semibold text-foreground mb-1">{l.title}</h3>
+                    <p className="text-sm text-muted-foreground mb-3">{l.description}</p>
+                    <div className="flex gap-2 flex-wrap">
+                      <Badge variant="secondary" className="text-xs">{l.rate} p.a.</Badge>
+                      <Badge variant="secondary" className="text-xs">{l.tenure}</Badge>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
-          </div>
+          ))}
+        </HScroll>
+        <div className="grid md:grid-cols-2 gap-5 mt-8">
+          <Card className="bg-gradient-to-br from-ocean-deep to-ocean-mid text-primary-foreground border-0">
+            <CardContent className="p-6 sm:p-7">
+              <PiggyBank className="h-7 w-7 mb-3 opacity-80" />
+              <h3 className="font-heading text-lg font-bold mb-2">Mandatory Savings</h3>
+              <p className="text-primary-foreground/80 text-sm mb-3">₦50,000 minimum monthly, deducted from salary. Earn 5% annual interest.</p>
+              <div className="flex gap-2 flex-wrap">
+                <Badge className="bg-primary-foreground/20 text-primary-foreground border-0">5% Interest</Badge>
+                <Badge className="bg-primary-foreground/20 text-primary-foreground border-0">Auto-deduct</Badge>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="bg-gradient-to-br from-success/90 to-success border-0">
+            <CardContent className="p-6 sm:p-7">
+              <HandCoins className="h-7 w-7 mb-3 text-success-foreground opacity-80" />
+              <h3 className="font-heading text-lg font-bold text-success-foreground mb-2">Voluntary Savings</h3>
+              <p className="text-success-foreground/80 text-sm mb-3">Top up anytime. Withdrawable with 30 days notice. Same 5% rate.</p>
+              <div className="flex gap-2 flex-wrap">
+                <Badge className="bg-success-foreground/20 text-success-foreground border-0">Flexible</Badge>
+                <Badge className="bg-success-foreground/20 text-success-foreground border-0">5% Interest</Badge>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-      </section>
+      </Section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="py-20 lg:py-28 bg-muted/50">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="text-center mb-14">
-            <Badge variant="secondary" className="mb-4">Process</Badge>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">How It Works</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">A simple cycle: contribute, save, borrow, and grow your wealth.</p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {howItWorksSteps.map((s) => (
-              <div key={s.step} className="text-center">
-                <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-5">
-                  <s.icon className="h-7 w-7 text-primary" />
-                </div>
-                <span className="font-heading text-xs font-bold text-primary uppercase tracking-widest">Step {s.step}</span>
-                <h3 className="font-heading text-lg font-semibold text-foreground mt-2 mb-2">{s.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{s.description}</p>
+      <Section id="how-it-works">
+        <SectionHeader tag="Process" title="How It Works" sub="Contribute, save, borrow, grow." />
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          {howItWorksSteps.map((s) => (
+            <div key={s.step} className="text-center">
+              <div className="h-14 w-14 sm:h-16 sm:w-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <s.icon className="h-6 w-6 sm:h-7 sm:w-7 text-primary" />
               </div>
-            ))}
-          </div>
+              <span className="font-heading text-xs font-bold text-primary uppercase tracking-widest">Step {s.step}</span>
+              <h3 className="font-heading text-base sm:text-lg font-semibold text-foreground mt-1 mb-1">{s.title}</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{s.description}</p>
+            </div>
+          ))}
         </div>
-      </section>
+      </Section>
 
       {/* Leadership */}
-      <section className="py-20 lg:py-28">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="text-center mb-14">
-            <Badge variant="secondary" className="mb-4">Governance</Badge>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">Meet Our Leadership</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">Elected by members, committed to transparency and service.</p>
-          </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {executives.map((e) => (
-              <Card key={e.name} className="bg-card border-border text-center overflow-hidden group hover:shadow-md transition-shadow">
-                <CardContent className="p-0">
-                  <img
-                    src={e.image}
-                    alt={e.name}
-                    className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
-                    loading="lazy"
-                  />
-                  <div className="p-4">
-                    <h3 className="font-heading font-semibold text-foreground text-sm">{e.name}</h3>
-                    <p className="text-xs text-muted-foreground">{e.role}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* News */}
-      <section className="py-20 lg:py-28 bg-muted/50">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="text-center mb-14">
-            <Badge variant="secondary" className="mb-4">Updates</Badge>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">News & Announcements</h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {news.map((n) => (
-              <Card key={n.title} className="bg-card border-border hover:shadow-md transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-xs text-muted-foreground">{n.date}</span>
-                  </div>
-                  <h3 className="font-heading font-semibold text-foreground mb-2">{n.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{n.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Gallery */}
-      <section className="py-20 lg:py-28">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="text-center mb-14">
-            <Badge variant="secondary" className="mb-4">Gallery</Badge>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">Life at RUNSMSL</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">Glimpses from our meetings, events, and welfare activities.</p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {galleryImages.map((img, i) => (
-              <div key={i} className="relative overflow-hidden rounded-xl group">
+      <Section alt>
+        <SectionHeader tag="Governance" title="Meet Our Leadership" sub="Elected by members, committed to transparency." />
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          {executives.map((e) => (
+            <Card key={e.name} className="bg-card border-border text-center overflow-hidden group hover:shadow-md transition-shadow">
+              <CardContent className="p-0">
                 <img
-                  src={img}
-                  alt={`RUNSMSL event ${i + 1}`}
-                  className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-300"
+                  src={e.image}
+                  alt={e.name}
+                  className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-ocean-deep/0 group-hover:bg-ocean-deep/30 transition-colors duration-300 flex items-center justify-center">
-                  <ImageIcon className="h-6 w-6 text-primary-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="p-3 sm:p-4">
+                  <h3 className="font-heading font-semibold text-foreground text-xs sm:text-sm">{e.name}</h3>
+                  <p className="text-xs text-muted-foreground">{e.role}</p>
                 </div>
-              </div>
-            ))}
-          </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
-      </section>
+      </Section>
+
+      {/* Testimonials */}
+      <Section>
+        <SectionHeader tag="Testimonials" title="What Members Say" />
+        <HScrollMobile>
+          {testimonials.map((t) => (
+            <Card key={t.name} className="bg-card border-border shrink-0 w-[85%] snap-center">
+              <CardContent className="p-5">
+                <div className="flex gap-1 mb-3">
+                  {[...Array(5)].map((_, i) => <Star key={i} className="h-3.5 w-3.5 fill-warning text-warning" />)}
+                </div>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-4 italic">"{t.quote}"</p>
+                <p className="font-heading font-semibold text-foreground text-sm">{t.name}</p>
+                <p className="text-xs text-muted-foreground">{t.role}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </HScrollMobile>
+        <HScroll gridClass="md:grid-cols-3">
+          {testimonials.map((t) => (
+            <Card key={t.name} className="bg-card border-border">
+              <CardContent className="p-6">
+                <div className="flex gap-1 mb-3">
+                  {[...Array(5)].map((_, i) => <Star key={i} className="h-4 w-4 fill-warning text-warning" />)}
+                </div>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-5 italic">"{t.quote}"</p>
+                <p className="font-heading font-semibold text-foreground text-sm">{t.name}</p>
+                <p className="text-xs text-muted-foreground">{t.role}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </HScroll>
+      </Section>
+
+      {/* News */}
+      <Section alt>
+        <SectionHeader tag="Updates" title="News & Announcements" />
+        <HScrollMobile>
+          {news.map((n) => (
+            <Card key={n.title} className="bg-card border-border shrink-0 w-[80%] snap-center">
+              <CardContent className="p-5">
+                <div className="flex items-center gap-2 mb-2">
+                  <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
+                  <span className="text-xs text-muted-foreground">{n.date}</span>
+                </div>
+                <h3 className="font-heading font-semibold text-foreground mb-1 text-sm">{n.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{n.description}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </HScrollMobile>
+        <HScroll gridClass="md:grid-cols-3">
+          {news.map((n) => (
+            <Card key={n.title} className="bg-card border-border hover:shadow-md transition-shadow">
+              <CardContent className="p-5">
+                <div className="flex items-center gap-2 mb-2">
+                  <Calendar className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-xs text-muted-foreground">{n.date}</span>
+                </div>
+                <h3 className="font-heading font-semibold text-foreground mb-1">{n.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{n.description}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </HScroll>
+      </Section>
+
+      {/* Gallery */}
+      <Section>
+        <SectionHeader tag="Gallery" title="Life at RUNSMSL" />
+        <div className="sm:hidden -mx-4 px-4 flex gap-3 overflow-x-auto snap-x snap-mandatory pb-3 scrollbar-hide">
+          {galleryImages.map((img, i) => (
+            <img
+              key={i}
+              src={img}
+              alt={`RUNSMSL event ${i + 1}`}
+              className="rounded-xl shrink-0 w-[75%] aspect-[4/3] object-cover snap-center"
+              loading="lazy"
+            />
+          ))}
+        </div>
+        <div className="hidden sm:grid grid-cols-3 gap-3 sm:gap-4">
+          {galleryImages.map((img, i) => (
+            <div key={i} className="relative overflow-hidden rounded-xl group">
+              <img
+                src={img}
+                alt={`RUNSMSL event ${i + 1}`}
+                className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+              />
+            </div>
+          ))}
+        </div>
+      </Section>
 
       {/* FAQs */}
-      <section id="faqs" className="py-20 lg:py-28 bg-muted/50">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="text-center mb-14">
-            <Badge variant="secondary" className="mb-4">FAQs</Badge>
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-foreground mb-4">Frequently Asked Questions</h2>
-          </div>
-          <div className="max-w-2xl mx-auto">
-            <Accordion type="single" collapsible className="space-y-3">
-              {faqs.map((f, i) => (
-                <AccordionItem key={i} value={`faq-${i}`} className="bg-card rounded-lg border border-border px-5">
-                  <AccordionTrigger className="text-sm font-medium text-foreground hover:no-underline">{f.q}</AccordionTrigger>
-                  <AccordionContent className="text-sm text-muted-foreground">{f.a}</AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </div>
+      <Section id="faqs" alt>
+        <SectionHeader tag="FAQs" title="Frequently Asked Questions" />
+        <div className="max-w-2xl mx-auto">
+          <Accordion type="single" collapsible className="space-y-2">
+            {faqs.map((f, i) => (
+              <AccordionItem key={i} value={`faq-${i}`} className="bg-card rounded-lg border border-border px-4 sm:px-5">
+                <AccordionTrigger className="text-sm font-medium text-foreground hover:no-underline text-left">{f.q}</AccordionTrigger>
+                <AccordionContent className="text-sm text-muted-foreground">{f.a}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
-      </section>
+      </Section>
 
       {/* Contact / CTA */}
-      <section id="contact" className="py-20 lg:py-28">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="bg-gradient-to-br from-ocean-deep via-ocean-mid to-ocean-accent rounded-2xl p-8 lg:p-16 text-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_hsl(200_55%_39%_/_0.4),_transparent_60%)]" />
-            <div className="relative z-10">
-              <h2 className="font-heading text-3xl sm:text-4xl font-bold text-primary-foreground mb-4">
-                Ready to Start Building Your Future?
-              </h2>
-              <p className="text-primary-foreground/80 max-w-xl mx-auto mb-8 text-lg">
-                Join RUNSMSL today and take the first step toward financial security, affordable credit, and a supportive community.
-              </p>
-              <Link to="/login">
-                <Button size="lg" className="bg-primary-foreground text-ocean-deep hover:bg-primary-foreground/90 font-semibold text-base px-10 gap-2 mb-8">
-                  Register Today <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-primary-foreground/80 text-sm">
-                <a href="tel:+2348012345678" className="flex items-center gap-2 hover:text-primary-foreground transition-colors">
-                  <Phone className="h-4 w-4" /> +234 801 234 5678
-                </a>
-                <a href="mailto:cooperative@run.edu.ng" className="flex items-center gap-2 hover:text-primary-foreground transition-colors">
-                  <Mail className="h-4 w-4" /> cooperative@run.edu.ng
-                </a>
-                <a href="https://wa.me/2348012345678" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary-foreground transition-colors">
-                  <MessageCircle className="h-4 w-4" /> WhatsApp Us
-                </a>
-              </div>
+      <Section id="contact">
+        <div className="bg-gradient-to-br from-ocean-deep via-ocean-mid to-ocean-accent rounded-2xl p-6 sm:p-10 lg:p-14 text-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_hsl(200_55%_39%_/_0.4),_transparent_60%)]" />
+          <div className="relative z-10">
+            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-primary-foreground mb-3">
+              Ready to Build Your Future?
+            </h2>
+            <p className="text-primary-foreground/80 max-w-xl mx-auto mb-6 text-sm sm:text-base">
+              Join RUNSMSL today — financial security, affordable credit, supportive community.
+            </p>
+            <Link to="/login">
+              <Button size="lg" className="bg-primary-foreground text-ocean-deep hover:bg-primary-foreground/90 font-semibold gap-2 mb-6">
+                Register Today <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-primary-foreground/80 text-sm">
+              <a href="tel:+2348012345678" className="flex items-center gap-2 hover:text-primary-foreground transition-colors">
+                <Phone className="h-4 w-4" /> +234 801 234 5678
+              </a>
+              <a href="mailto:cooperative@run.edu.ng" className="flex items-center gap-2 hover:text-primary-foreground transition-colors">
+                <Mail className="h-4 w-4" /> cooperative@run.edu.ng
+              </a>
+              <a href="https://wa.me/2348012345678" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary-foreground transition-colors">
+                <MessageCircle className="h-4 w-4" /> WhatsApp
+              </a>
             </div>
           </div>
         </div>
-      </section>
+      </Section>
 
       {/* Footer */}
-      <footer className="bg-ocean-deep py-12 border-t border-border">
+      <footer className="bg-ocean-deep py-10 border-t border-border">
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
             <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-                  <Building2 className="h-4 w-4 text-primary-foreground" />
-                </div>
+              <div className="flex items-center gap-2 mb-3">
+                <img src={rucsLogo} alt="RUNSMSL" className="h-8 w-8 object-contain" />
                 <span className="font-heading font-bold text-primary-foreground">RUNSMSL</span>
               </div>
-              <p className="text-sm text-primary-foreground/60 leading-relaxed">
-                Run Staff Cooperative Multipurpose Society Limited — empowering staff through collective savings since 2010.
+              <p className="text-xs text-primary-foreground/60 leading-relaxed">
+                Run Staff Cooperative Multipurpose Society Limited — empowering staff since 2010.
               </p>
             </div>
             <div>
               <h4 className="font-heading font-semibold text-primary-foreground mb-3 text-sm">Quick Links</h4>
-              <div className="space-y-2 text-sm text-primary-foreground/60">
+              <div className="space-y-1.5 text-xs text-primary-foreground/60">
                 <a href="#about" className="block hover:text-primary-foreground transition-colors">About Us</a>
                 <a href="#services" className="block hover:text-primary-foreground transition-colors">Services</a>
                 <a href="#faqs" className="block hover:text-primary-foreground transition-colors">FAQs</a>
@@ -551,7 +471,7 @@ export const LandingPage = () => {
             </div>
             <div>
               <h4 className="font-heading font-semibold text-primary-foreground mb-3 text-sm">Services</h4>
-              <div className="space-y-2 text-sm text-primary-foreground/60">
+              <div className="space-y-1.5 text-xs text-primary-foreground/60">
                 <p>Emergency Loans</p>
                 <p>Education Loans</p>
                 <p>Business Loans</p>
@@ -560,14 +480,14 @@ export const LandingPage = () => {
             </div>
             <div>
               <h4 className="font-heading font-semibold text-primary-foreground mb-3 text-sm">Contact</h4>
-              <div className="space-y-2 text-sm text-primary-foreground/60">
+              <div className="space-y-1.5 text-xs text-primary-foreground/60">
                 <p>Redeemer's University, Ede, Osun State</p>
                 <p>cooperative@run.edu.ng</p>
                 <p>+234 801 234 5678</p>
               </div>
             </div>
           </div>
-          <div className="border-t border-primary-foreground/10 pt-6 text-center text-xs text-primary-foreground/40">
+          <div className="border-t border-primary-foreground/10 pt-5 text-center text-xs text-primary-foreground/40">
             © {new Date().getFullYear()} Run Staff Cooperative Multipurpose Society Limited. All rights reserved.
           </div>
         </div>
