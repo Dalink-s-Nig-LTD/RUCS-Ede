@@ -13,6 +13,7 @@ import {
   testimonials, news, galleryImages, faqs, joinSteps,
 } from "./landing/data";
 import rucsLogo from "@/assets/rucs-logo.png";
+import heroTeam from "@/assets/hero-team.jpg";
 
 const Section = ({ id, alt, children }: { id?: string; alt?: boolean; children: React.ReactNode }) => (
   <section id={id} className={`py-12 sm:py-16 lg:py-20 ${alt ? "bg-muted/40" : ""}`}>
@@ -44,32 +45,51 @@ export const LandingPage = () => {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative pt-24 pb-16 sm:pt-28 sm:pb-20 lg:pt-36 lg:pb-28 overflow-hidden">
+      <section className="relative pt-24 pb-16 sm:pt-28 sm:pb-20 lg:pt-32 lg:pb-24 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-ocean-deep via-ocean-mid to-ocean-accent opacity-95" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_hsl(200_55%_39%_/_0.3),_transparent_60%)]" />
         <div className="container mx-auto px-4 lg:px-8 relative z-10">
-          <div className="max-w-3xl">
-            <Badge className="mb-5 bg-primary/20 text-primary-foreground border-primary/30 hover:bg-primary/20">
-              <BadgeCheck className="h-3.5 w-3.5 mr-1" /> Registered Cooperative Society
-            </Badge>
-            <h1 className="font-heading text-3xl sm:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-5">
-              Building Wealth Together at{" "}
-              <span className="text-ocean-light">Redeemer's University</span>
-            </h1>
-            <p className="text-base sm:text-lg lg:text-xl text-primary-foreground/80 mb-7 max-w-2xl leading-relaxed">
-              Join over 2,500 staff members saving, investing, and accessing affordable loans through our trusted cooperative — since 2010.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link to="/login">
-                <Button size="lg" className="w-full sm:w-auto bg-primary-foreground text-ocean-deep hover:bg-primary-foreground/90 font-semibold gap-2">
-                  Join the Cooperative <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-              <a href="#how-it-works">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
-                  See How It Works
-                </Button>
-              </a>
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+            <div className="max-w-2xl">
+              <Badge className="mb-5 bg-primary/20 text-primary-foreground border-primary/30 hover:bg-primary/20">
+                <BadgeCheck className="h-3.5 w-3.5 mr-1" /> Registered Cooperative Society
+              </Badge>
+              <h1 className="font-heading text-3xl sm:text-5xl lg:text-[3.25rem] xl:text-6xl font-bold text-primary-foreground leading-[1.1] mb-5">
+                Building Wealth Together at{" "}
+                <span className="text-ocean-light">Redeemer's University</span>
+              </h1>
+              <p className="text-base sm:text-lg text-primary-foreground/80 mb-7 max-w-xl leading-relaxed">
+                Join over 2,500 staff members saving, investing, and accessing affordable loans through our trusted cooperative — since 2010.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link to="/login">
+                  <Button size="lg" className="w-full sm:w-auto bg-primary-foreground text-ocean-deep hover:bg-primary-foreground/90 font-semibold gap-2">
+                    Join the Cooperative <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+                <a href="#how-it-works">
+                  <Button size="lg" variant="outline" className="w-full sm:w-auto border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
+                    See How It Works
+                  </Button>
+                </a>
+              </div>
+            </div>
+
+            {/* Hero image */}
+            <div className="relative">
+              <div className="absolute -inset-3 bg-gradient-to-tr from-ocean-light/30 to-primary-foreground/10 rounded-3xl blur-xl" />
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-primary-foreground/20">
+                <img
+                  src={heroTeam}
+                  alt="RUNSMSL executives and members at Redeemer's University"
+                  className="w-full h-auto object-cover aspect-[16/10]"
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ocean-deep/80 via-ocean-deep/20 to-transparent p-4 sm:p-5">
+                  <p className="text-primary-foreground text-xs sm:text-sm font-medium">
+                    Our leadership & members — united for collective growth
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
