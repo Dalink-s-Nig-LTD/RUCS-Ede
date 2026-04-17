@@ -78,8 +78,8 @@ export const Layout = ({ role }: { role: 'member' | 'admin' | 'officer' }) => {
         <div>
           <div className="h-16 flex items-center justify-between px-5 border-b border-sidebar-border">
             <div className="flex items-center gap-2.5">
-              <img src={rucsLogo} alt="RUCS" className="w-8 h-8 object-contain" />
-              <span className="font-heading font-bold text-base text-sidebar-foreground tracking-tight">RUCS</span>
+              <img src={rucsLogo} alt="RUNSMSL" className="w-8 h-8 object-contain" />
+              <span className="font-heading font-bold text-base text-sidebar-foreground tracking-tight">RUNSMSL</span>
             </div>
             <button className="lg:hidden text-sidebar-foreground/60 hover:text-sidebar-foreground" onClick={() => setIsMobileMenuOpen(false)}>
               <X className="w-5 h-5" />

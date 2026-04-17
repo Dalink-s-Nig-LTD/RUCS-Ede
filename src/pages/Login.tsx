@@ -12,10 +12,10 @@ export const Login = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-transparent via-ocean-mid/30 to-ocean-accent/10" />
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-2">
-            <img src={rucsLogo} alt="RUCS Logo" className="w-12 h-12 object-contain drop-shadow-lg" />
-            <span className="font-heading font-bold text-xl tracking-tight">RUCS</span>
+            <img src={rucsLogo} alt="RUNSMSL Logo" className="w-12 h-12 object-contain drop-shadow-lg" />
+            <span className="font-heading font-bold text-xl tracking-tight">RUNSMSL</span>
           </div>
-          <p className="text-sm text-white/50 font-medium">Redeemers University Cooperative Society</p>
+          <p className="text-sm text-white/50 font-medium">Run Staff Cooperative Multipurpose Society Limited</p>
         </div>
 
         <div className="relative z-10 space-y-8">
@@ -41,15 +41,15 @@ export const Login = () => {
           </div>
         </div>
 
-        <p className="relative z-10 text-xs text-white/30">© 2026 Redeemers University Cooperative Society</p>
+        <p className="relative z-10 text-xs text-white/30">© 2026 Run Staff Cooperative Multipurpose Society Limited</p>
       </div>
 
       {/* Right panel — login */}
       <div className="flex-1 flex flex-col justify-center items-center px-6 sm:px-12 bg-background">
         <div className="w-full max-w-md space-y-8">
           <div className="lg:hidden flex items-center gap-3 mb-4">
-            <img src={rucsLogo} alt="RUCS Logo" className="w-10 h-10 object-contain" />
-            <span className="font-heading font-bold text-lg text-foreground">RUCS Platform</span>
+            <img src={rucsLogo} alt="RUNSMSL Logo" className="w-10 h-10 object-contain" />
+            <span className="font-heading font-bold text-lg text-foreground">RUNSMSL Platform</span>
           </div>
 
           <div>
